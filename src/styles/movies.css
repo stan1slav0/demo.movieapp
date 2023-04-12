@@ -1,0 +1,58 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+*{
+	font-family: 'Roboto', sans-serif;
+}
+
+/* ---------------------------------------
+
+/* Scrollbar width */
+.scrollbar::-webkit-scrollbar {
+  background-color: transparent;
+  height: 10px;
+  width: 0;
+}
+
+/* background of the scrollbar except button or resizer */
+.scrollbar::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+.scrollbar::-webkit-scrollbar-track:hover {
+  background-color: transparent;
+}
+
+/* scrollbar itself */
+.scrollbar::-webkit-scrollbar-thumb {
+  background-color: #80E9BC;
+  border-radius: 16px;
+}
+.scrollbar::-webkit-scrollbar-thumb:hover {
+  background-color: #67b493;
+}
+
+/* set button(top and bottom of the scrollbar) */
+.scrollbar::-webkit-scrollbar-button {
+  display: none;
+}
+
+.scrollbar-hidden::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-hidden {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+} 
+
+.line-clamp {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  /* The number here represents the maximum number of lines to show */
+  -webkit-line-clamp: 3; 
+}
+
+
+

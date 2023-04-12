@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<script defer src="/dist/bundle.js"></script>
+	<link id="API-Docs-Favicon" href="//www.themoviedb.org/favicon.ico" type="image/x-icon" rel="shortcut icon">
+	<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Source+Sans+Pro:wght@300;400;600;700&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="/dist/main.css">
+	<title>Movie Info</title>
+</head>
+
+<body x-data="MoviesInfo" class="w-full h-screen bg-gray-900 text-white">
+	<main x-data="movieInfo" x-init="loadMovies" class="w-full h-full relative">
+		<div x-data="{ imageLoaded: false, youtubeModal : false }">
+			<div class="w-full h-[64px] bg-[#032541] flex justify-center items-center">
+				<div class="w-[1300px] px-8 flex items-center justify-between">
+					<div class="flex items-center">
+						<div>
+						<a href="index.html">	
+							<img src="/src/images/logo.png" alt="">
+						</a>
+						</div>
+						<nav class="flex px-5">
+							<ul class="flex space-x-5 text-white">
+								<li>Movies</li>
+								<li>TV Shows</li>
+								<li>People</li>
+								<li>More</li>
+							</ul>
+						</nav>
+					</div>
+					<div class="flex items-center space-x-5 text-white">
+						<img src="/src/images/plus.png" alt="">
+						<div class="p-0.5 px-1.5 border border-solid border-white rounded-md">EN</div>
+						<span><a href="./profile.html">Profile</a></span>
+						<a target="_blank" href="/persons.html">
+							<img src="/src/images/span.svg" alt="">
+						</a>
+					</div>
+				</div>
+			</div>
+			<div class="w-full h-[500px] mx-auto relative">
+				<div x-show="!imageLoaded" class="w-full h-full bg-gray-900 absolute top-0 left-0 z-[99] flex">
+					<svg class="w-[50px]" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+						style="margin: auto; background: transparent; display: block; shape-rendering: auto;" width="200px"
+						height="200px" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid">
+						<circle cx="50" cy="50" fill="none" stroke="#56E3B6" stroke-width="10" r="35"
+							stroke-dasharray="164.93361431346415 56.97787143782138">
+							<animateTransform attributeName="transform" type="rotate" repeatCount="indefinite" dur="1s"
+								values="0 50 50;360 50 50" keyTimes="0;1"></animateTransform>
+						</circle>
+					</svg>
+				</div>
+				<div
+					x-bind:style="`background: linear-gradient(to left, rgba(3,37,65) 20%, transparent), url('https://image.tmdb.org/t/p/w1920_and_h427_multi_faces/${movieInfo.backdrop_path}');background-repeat: no-repeat;background-size: cover;`"
+					class="w-full h-full mx-auto" x-on:load="imageLoaded = true">
+					<div x-show="imageLoaded" class="w-[1300px] h-full mx-auto px-8 py-4 flex space-x-8">
+						<div class="h-[450px] min-w-[300px] max-w-[400px]">
+							<img class="h-full w-full rounded-xl"
+								x-bind:src="`https://www.themoviedb.org/t/p/w440_and_h660_face/${movieInfo.poster}`"
+								x-on:load="imageLoaded = true" :alt="movieInfo.poster">
+						</div>
+
+						<div class="pt-[50px]">
+							<span class="font-bold text-4xl text-white" x-text="movieInfo.title || movieInfo.name">Title</span>
+							<span x-show="movieInfo.release_date != undefined" class="text-3xl text-gray-300"
+								x-text="`(${movieInfo.release_data_sliced})`">Title</span>
+							<div class="space-x-2 mb-2 text-gray-400 flex">
+								<span x-show="movieInfo.release_date != undefined" class="text-gray-300"
+									x-text="`&#x2022; ${movieInfo.release_date} (${movieInfo.production_countries_iso})`"></span>
+								<div x-show="movieInfo.genres" class="flex space-x-1">
+									<span>&#x2022; </span>
+									<template x-for="(genre, index) in movieInfo.genres" :key="index">
+										<span class="text-gray-300"
+											x-text="`${genre.name}${movieInfo.genres && index < movieInfo.genres.length - 1 ? ',' : ''}`">
+											Genres</span>
+									</template>
+								</div>
+								<span x-show="movieInfo.runtime" class="text-gray-300"
+									x-text="`&#x2022; ${movieInfo.runtime}`">Duration</span>
+							</div>
+							<div x-show="movieInfo.vote_average != undefined" class="flex space-x-2 items-center mr-4">
+								<div
+									class="w-10 h-10 rounded-full -bottom-4 left-2 flex items-center justify-center bg-[#032541] border-2 border-green-500 text-white"
+									x-text="movieInfo.vote_average"></div>
+								<span class="text-gray-300">User Score</span>
+								<button x-on:click="youtubeModal = true"
+									class="flex gap-1 items-center hover:opacity-70 transition duration-200">
+									<svg class="w-3 h-3 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512">
+										<path
+											d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z" />
+									</svg>
+									<span>Play Trailer</span>
+								</button>
+
+
+
+
+
+								<div x-data="toggleFavorite(movieInfo.id)">
+									<button x-on:click="toggle(movieInfo.id);addFavorite(movieInfo.id,movieInfo.title,movieInfo.poster,movieInfo.release_date)" class="flex items-center p-1 pl-4 gap-2 h-full w-full rounded-xl">
+										<svg class="w-5 h-5" :class="{ 'fill-red-500': list.includes(movieInfo.id), 'fill-gray-500': !list.includes(movieInfo.id) }" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M47.6 300.4L228.3 469.1c7.5 7 17.4 10.9 27.7 10.9s20.2-3.9 27.7-10.9L464.4 300.4c30.4-28.3 47.6-68 47.6-109.5v-5.8c0-69.9-50.5-129.5-119.4-141C347 36.5 300.6 51.4 268 84L256 96 244 84c-32.6-32.6-79-47.5-124.6-39.9C50.5 55.6 0 115.2 0 185.1v5.8c0 41.5 17.2 81.2 47.6 109.5z"/></svg>
+									</button>
+								</div>
+							</div>
+
+
+
+
+
+
+
+
+							<div class="mt-2 text-gray-300 italic">
+								<span x-show="movieInfo.tagline != undefined" x-text="movieInfo.tagline">Slogan</span>
+							</div>
+							<div class="mt-4 flex flex-col space-y-2">
+								<span class="text-base font-normal text-white">Overview</span>
+								<span class="text-gray-300" x-text="movieInfo.overview"></span>
+							</div>
+
+							<div class="flex w-full h-auto mt-4 flex-wrap gap-x-[15%] gap-y-4">
+								<div x-show="crew.direction && crew.direction.length >= 1" class="flex flex-col">
+									<span class="text-base text-white text-semibold">Director</span>
+									<div class="flex">
+										<template x-for="(direction,index) in crew.direction" :key="index">
+											<span
+												x-text="`${direction.name}${crew.direction && index < crew.direction.length - 1 ? ',' : ''}`"
+												class="text-sm text-gray-300"></span>
+										</template>
+									</div>
+								</div>
+								<div x-show="crew.production && crew.production.length >= 1" class="flex flex-col">
+									<span class="text-base text-white text-semibold">Producer</span>
+									<div class="flex">
+										<template x-for="(producer,index) in crew.production" :key="index">
+											<span
+												x-text="`${producer.name}${crew.production && index < crew.production.length - 1 ? ',' : ''}`"
+												class="text-sm text-gray-300"></span>
+										</template>
+									</div>
+								</div>
+								<div x-show="crew.editor && crew.editor.length >= 1" class="flex flex-col">
+									<span class="text-base text-white text-semibold">Editor</span>
+									<div class="flex">
+										<template x-for="(editor, index) in crew.editor" :key="index">
+											<span x-text="`${editor.name}${crew.editor && index < crew.editor.length - 1 ? ',' : ''}`"
+												class="text-sm text-gray-300"></span>
+										</template>
+									</div>
+								</div>
+								<div x-show="crew.sound && crew.sound.length >= 1" class="flex flex-col">
+									<span class="text-base text-white text-semibold">Sound</span>
+									<div class="flex">
+										<template x-for="(sounder, index) in crew.sound" :key="index">
+											<span x-text="`${sounder.name}${crew.sound && index < crew.sound.length - 1 ? ',' : ''}`"
+												class="text-sm text-gray-300"></span>
+										</template>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div x-show="imageLoaded" class="w-[1300px] mx-auto px-8 py-4 flex space-x-10">
+				<div class="w-[80%] h-auto overflow-hidden">
+					<div x-show="actors.length >= 1" class="min-w-[500px] h-[350px] relative pb-[45px]">
+						<h3 class="font-bold text-white text-xl">Top Billed Cast</h3>
+						<div x-show="actors.length >= 8" style="box-shadow: inset -60px 0px 42px -43px rgba(3,37,65); z-index: 9;"
+							class="right-0 h-[315px] w-[100px] absolute"></div>
+						<div class="w-full h-[300px] p-5 pl-0 overflow-x-scroll overflow-y-hidden flex gap-2 text-white scrollbar">
+							<template x-for="(actor,index) in actors" :key="index">
+								<div x-show="actor.profile_path != null" class="rounded-lg space-y-1 min-w-[138px] w-[138px]">
+									<a :href="`/src/persons.html?id=${actor.id}`" class="w-full  h-[175px] block roundex-xl">
+										<img draggable="false" class="w-full h-full rounded-lg"
+											:src="`https://www.themoviedb.org/t/p/w276_and_h350_face${actor.profile_path}`" alt="">
+									</a>
+									<div class="flex flex-col space-y-1">
+										<span class="font-bold" x-text="actor.original_name"></span>
+										<span class="" x-text="actor.character.replace('(voice)', '').split('/')[0].trim()"></span>
+									</div>
+								</div>
+							</template>
+						</div>
+					</div>
+
+					<div x-data="loadReviews" class="mt-4 flex flex-col space-y-4">
+						<div x-show="!reviews.reviewData.author">
+							<span class="text-xl font-bold">No reviews</span>
+						</div>
+						<div x-data="{showMoreReview:false}" x-show="reviews.reviewData.author != undefined">
+							<div class="flex items-center space-x-10 mb-4">
+								<span class="text-xl font-bold">Social</span>
+								<div class="flex items-center text-base justify-center">
+									<button x-on:click="loadReviews; showMoreReview = false" class="text-white">Reviews</button>
+									<span class="text-gray-300 ml-1 bg-gray-800 p-0.5 px-3 flex items-center justify-center  rounded-full"
+										x-text="reviews.sum === null ? 0 : reviews.sum"></span>
+								</div>
+							</div>
+							<div style="transition:all ease 0.5s !important"
+								class="transition-all duration-300 w-full bg-gray-800 rounded-xl p-4 flex gap-6 overflow-y-scroll"
+								:class="{
+							'h-full' : showMoreReview , 'h-[200px]' : !showMoreReview
+						}">
+								<div class="w-full max-w-[80px]">
+									<img class="rounded-full" :src="reviews.authorIcon" alt="">
+								</div>
+								<div class="w-[80%] pt-4">
+									<div class="flex flex-col">
+										<span x-text="`A review by ${reviews.reviewData.author}`" class="text-lg font-bold"></span>
+										<span
+											x-text="`Written by ${reviews.reviewData.author} on ${reviews.reviewData.created_at && reviews.reviewData.created_at.slice(0,10)}`"></span>
+									</div>
+									<div class="mt-10 text-end pb-2">
+										<p x-show="!showMoreReview" class="line-clamp-3 truncate text-start"
+											x-text="reviews.reviewData.content"></p>
+										<p x-show="showMoreReview" class="text-start" x-text="reviews.reviewData.content"></p>
+										<button
+											x-show="!showMoreReview && reviews.reviewData.content && reviews.reviewData.content.length > 75"
+											x-on:click="showMoreReview = !showMoreReview" class="text-[#56E3B6] mt-1">Read all</button>
+											<button x-show="showMoreReview" x-on:click="showMoreReview = !showMoreReview"
+											class="text-[#56E3B6] mt-1">Collapse</button>
+									</div>
+								</div>
+							</div>
+
+
+
+						</div>
+					</div>
+
+					<div class="mt-4 flex flex-col">
+						<div class="flex items-center space-x-10">
+							<span class="text-xl font-bold">Media</span>
+							<div class="flex items-center text-base justify-center">
+								<button class="text-white">Most Popular</button>
+								<span class="text-gray-300 ml-1 bg-gray-800 p-0.5 px-3 flex items-center justify-center  rounded-full"
+										x-text="videos === null ? 0 : videos.length"></span>
+							</div>
+						</div>
+						<div class="w-full h-[350px] p-5 pl-0 overflow-x-scroll overflow-y-hidden flex gap-2 text-white scrollbar rounded-xl">
+							<template x-for="(video,index) in videos" :key="index">
+								<div class="min-w-[500px] h-auto rounded-xl overflow-hidden">
+									<iframe width="560" height=100% :src="`https://www.youtube.com/embed/${video.key}`" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+								</div>
+							</template>
+						</div>
+					</div>
+
+					<div x-show="recommendations && recommendations.length >= 1" class="mt-4 flex flex-col">
+						<div class="flex items-center space-x-10">
+							<span class="text-xl font-bold">Recommendations</span>
+						</div>
+						<div class="relative">
+							<div x-show="recommendations && recommendations.length >= 8" style="box-shadow: inset -60px 0px 42px -43px rgba(3,37,65); z-index: 9;"
+								class="right-0 h-[315px] w-[100px] absolute"></div>
+							<div class="w-full h-[300px] p-5 pl-0 overflow-x-scroll overflow-y-hidden flex gap-2 text-white scrollbar rounded-xl">
+								<template x-for="(rec, index) in recommendations" :key="index">
+									<div x-show="rec.poster_path" class="rounded-lg space-y-1 min-w-[138px] w-[138px]">
+										<a x-on:click="loadRec" :href="`/movies.html?id=${rec.id}`" class="w-full  h-[175px] block roundex-xl">
+											<img draggable="false" class="w-full h-full rounded-lg"
+												:src="`https://www.themoviedb.org/t/p/w276_and_h350_face${rec.poster_path}`" alt="">
+										</a>
+										<div class="flex flex-col space-y-1">
+											<span class="font-bold" x-text="rec.title"></span>
+										</div>
+									</div>
+								</template>
+							</div>
+						</div>
+					</div>
+
+				</div>
+				<div class="w-[20%]">
+					<div x-data="socials" class="flex gap-2 items-center">
+						<a x-show="socials.facebook_id" target="_blank" :href="`https://facebook.com/${socials.facebook_id}`"
+							class="hover:opacity-70 transition duration-200">
+							<svg class="w-5 h-5 fill-white" xmlns="http://www.w3.org/2000/svg"
+								viewBox="0 0 512 512"><!--! Font Awesome Pro 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+								<path
+									d="M504 256C504 119 393 8 256 8S8 119 8 256c0 123.78 90.69 226.38 209.25 245V327.69h-63V256h63v-54.64c0-62.15 37-96.48 93.67-96.48 27.14 0 55.52 4.84 55.52 4.84v61h-31.28c-30.8 0-40.41 19.12-40.41 38.73V256h68.78l-11 71.69h-57.78V501C413.31 482.38 504 379.78 504 256z" />
+							</svg>
+						</a>
+						<a x-show="socials.twitter_id" target="_blank" :href="`https://twitter.com/${socials.twitter_id}`"
+							class="hover:opacity-70 transition duration-200">
+							<svg class="w-5 h-5 fill-white" xmlns="http://www.w3.org/2000/svg"
+								viewBox="0 0 512 512"><!--! Font Awesome Pro 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+								<path
+									d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z" />
+							</svg>
+						</a>
+						<a x-show="socials.instagram_id" target="_blank" :href="`https://instagram.com/${socials.instagram_id}`"
+							class="hover:opacity-70 transition duration-200">
+							<svg class="w-5 h-5 fill-white" xmlns="http://www.w3.org/2000/svg"
+								viewBox="0 0 448 512"><!--! Font Awesome Pro 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+								<path
+									d="M224.1 141c-63.6 0-114.9 51.3-114.9 114.9s51.3 114.9 114.9 114.9S339 319.5 339 255.9 287.7 141 224.1 141zm0 189.6c-41.1 0-74.7-33.5-74.7-74.7s33.5-74.7 74.7-74.7 74.7 33.5 74.7 74.7-33.6 74.7-74.7 74.7zm146.4-194.3c0 14.9-12 26.8-26.8 26.8-14.9 0-26.8-12-26.8-26.8s12-26.8 26.8-26.8 26.8 12 26.8 26.8zm76.1 27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.8 1.7-67.6 9.9-93.9 36.1s-34.4 58-36.2 93.9c-2.1 37-2.1 147.9 0 184.9 1.7 35.9 9.9 67.7 36.2 93.9s58 34.4 93.9 36.2c37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.8 0-184.8zM398.8 388c-7.8 19.6-22.9 34.7-42.6 42.6-29.5 11.7-99.5 9-132.1 9s-102.7 2.6-132.1-9c-19.6-7.8-34.7-22.9-42.6-42.6-11.7-29.5-9-99.5-9-132.1s-2.6-102.7 9-132.1c7.8-19.6 22.9-34.7 42.6-42.6 29.5-11.7 99.5-9 132.1-9s102.7-2.6 132.1 9c19.6 7.8 34.7 22.9 42.6 42.6 11.7 29.5 9 99.5 9 132.1s2.7 102.7-9 132.1z" />
+							</svg>
+						</a>
+						<a x-show="socials.imdb_id" target="_blank" :href="`https://imdb.com/title/${socials.imdb_id}`"
+							class="hover:opacity-70 transition duration-200">
+							<svg class="w-5 h-5 fill-[#F5C518]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+								<path
+									d="M400 32H48C21.5 32 0 53.5 0 80v352c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48V80c0-26.5-21.5-48-48-48zM21.3 229.2H21c.1-.1.2-.3.3-.4zM97 319.8H64V192h33zm113.2 0h-28.7v-86.4l-11.6 86.4h-20.6l-12.2-84.5v84.5h-29V192h42.8c3.3 19.8 6 39.9 8.7 59.9l7.6-59.9h43zm11.4 0V192h24.6c17.6 0 44.7-1.6 49 20.9 1.7 7.6 1.4 16.3 1.4 24.4 0 88.5 11.1 82.6-75 82.5zm160.9-29.2c0 15.7-2.4 30.9-22.2 30.9-9 0-15.2-3-20.9-9.8l-1.9 8.1h-29.8V192h31.7v41.7c6-6.5 12-9.2 20.9-9.2 21.4 0 22.2 12.8 22.2 30.1zM265 229.9c0-9.7 1.6-16-10.3-16v83.7c12.2.3 10.3-8.7 10.3-18.4zm85.5 26.1c0-5.4 1.1-12.7-6.2-12.7-6 0-4.9 8.9-4.9 12.7 0 .6-1.1 39.6 1.1 44.7.8 1.6 2.2 2.4 3.8 2.4 7.8 0 6.2-9 6.2-14.4z" />
+							</svg>
+						</a>
+						<a x-show="movieInfo.homepage" target="_blank" :href="movieInfo.homepage"
+							class="hover:opacity-70 transition duration-200">
+							<svg class="w-5 h-5 fill-white" xmlns="http://www.w3.org/2000/svg"
+								viewBox="0 0 576 512"><!--! Font Awesome Pro 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+								<path
+									d="M575.8 255.5c0 18-15 32.1-32 32.1h-32l.7 160.2c0 2.7-.2 5.4-.5 8.1V472c0 22.1-17.9 40-40 40H456c-1.1 0-2.2 0-3.3-.1c-1.4 .1-2.8 .1-4.2 .1H416 392c-22.1 0-40-17.9-40-40V448 384c0-17.7-14.3-32-32-32H256c-17.7 0-32 14.3-32 32v64 24c0 22.1-17.9 40-40 40H160 128.1c-1.5 0-3-.1-4.5-.2c-1.2 .1-2.4 .2-3.6 .2H104c-22.1 0-40-17.9-40-40V360c0-.9 0-1.9 .1-2.8V287.6H32c-18 0-32-14-32-32.1c0-9 3-17 10-24L266.4 8c7-7 15-8 22-8s15 2 21 7L564.8 231.5c8 7 12 15 11 24z" />
+							</svg>
+						</a>
+					</div>
+					<div class="flex flex-col space-y-4 mt-6">
+						<div class="flex flex-col">
+							<span class="text-sm font-semibold text-white">Status</span>
+							<span x-text="movieInfo.status" class="text-sm font-normal text-gray-300"></span>
+						</div>
+						<div class="flex flex-col">
+							<span class="text-sm font-semibold text-white">Original language</span>
+							<span x-text="movieInfo.original_language" class="text-sm font-normal text-gray-300 uppercase"></span>
+						</div>
+						<div class="flex flex-col">
+							<span class="text-sm font-semibold text-white">Budget</span>
+							<span x-text="movieInfo.budget" class="text-sm font-normal text-gray-300 uppercase"></span>
+						</div>
+						<div class="flex flex-col">
+							<span class="text-sm font-semibold text-white">Revenue</span>
+							<span x-text="movieInfo.revenue" class="text-sm font-normal text-gray-300 uppercase"></span>
+						</div>
+						<div class="flex flex-col flex-wrap gap-1">
+							<span class="text-sm font-semibold text-white">Keywords</span>
+							<div class="flex flex-wrap gap-2">
+								<template x-for="(keyword,index) in keywords" :key="index">
+									<div x-text="keyword.name"
+										class="text-sm font-normal text-gray-300 bg-gray-800 py-0.5 px-1.5 rounded-md"></div>
+								</template>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div @click="youtubeModal = true" x-show="youtubeModal"
+					class="absolute w-full h-full bg-black bg-opacity-70 top-0 left-0 flex items-center justify-center">
+					<iframe @click.outside="youtubeModal = false; onModalClose()" id="youtube-video" class="h-[50%] w-[50%]"
+						:data-src="`https://www.youtube.com/embed/${youtube}`" :src="`https://www.youtube.com/embed/${youtube}`"
+						title="YouTube video player" frameborder="0"
+						allow="accelerometer;clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+						allowfullscreen></iframe>
+				</div>
+		</div>
+		<br>
+		<br>
+		<br>
+		<br>
+		<br>
+		<br>
+		<br>
+		<br>
+		<br>
+		<br>
+		<br>
+		<br>
+		
+	</main>
+</body>
+
+</html>
