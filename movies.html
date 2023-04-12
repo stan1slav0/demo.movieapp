@@ -5,10 +5,10 @@
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<script defer src="/dist/bundle.js"></script>
+	<script defer src="dist/bundle.js"></script>
 	<link id="API-Docs-Favicon" href="//www.themoviedb.org/favicon.ico" type="image/x-icon" rel="shortcut icon">
 	<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Source+Sans+Pro:wght@300;400;600;700&display=swap" rel="stylesheet">
-	<link rel="stylesheet" href="/dist/main.css">
+	<link rel="stylesheet" href="dist/main.css">
 	<title>Movie Info</title>
 </head>
 
@@ -20,7 +20,7 @@
 					<div class="flex items-center">
 						<div>
 						<a href="index.html">	
-							<img src="/src/images/logo.png" alt="">
+							<img src="src/images/logo.png" alt="">
 						</a>
 						</div>
 						<nav class="flex px-5">
@@ -33,11 +33,11 @@
 						</nav>
 					</div>
 					<div class="flex items-center space-x-5 text-white">
-						<img src="/src/images/plus.png" alt="">
+						<img src="src/images/plus.png" alt="">
 						<div class="p-0.5 px-1.5 border border-solid border-white rounded-md">EN</div>
 						<span><a href="./profile.html">Profile</a></span>
 						<a target="_blank" href="/persons.html">
-							<img src="/src/images/span.svg" alt="">
+							<img src="src/images/span.svg" alt="">
 						</a>
 					</div>
 				</div>
@@ -175,7 +175,7 @@
 						<div class="w-full h-[300px] p-5 pl-0 overflow-x-scroll overflow-y-hidden flex gap-2 text-white scrollbar">
 							<template x-for="(actor,index) in actors" :key="index">
 								<div x-show="actor.profile_path != null" class="rounded-lg space-y-1 min-w-[138px] w-[138px]">
-									<a :href="`/src/persons.html?id=${actor.id}`" class="w-full  h-[175px] block roundex-xl">
+									<a :href="`./persons.html?id=${actor.id}`" class="w-full  h-[175px] block roundex-xl">
 										<img draggable="false" class="w-full h-full rounded-lg"
 											:src="`https://www.themoviedb.org/t/p/w276_and_h350_face${actor.profile_path}`" alt="">
 									</a>
