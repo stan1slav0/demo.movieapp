@@ -4,9 +4,9 @@
 		<meta charset="UTF-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<script defer src="/dist/bundle.js"></script>
-		<link id="API-Docs-Favicon" href="//www.themoviedb.org/favicon.ico" type="image/x-icon" rel="shortcut icon">
-		<link rel="stylesheet" href="/dist/main.css">
+		<script defer src="dist/bundle.js"></script>
+		<link id="API-Docs-Favicon" href="www.themoviedb.org/favicon.ico" type="image/x-icon" rel="shortcut icon">
+		<link rel="stylesheet" href="dist/main.css">
 		<title>Actor Info</title>
 	</head>
 <body class="w-full h-screen bg-gray-900" x-data="Persons" x-init="loadActorByID">
@@ -16,7 +16,7 @@
 					<div class="flex items-center">
 						<div>
 						<a href="index.html">	
-							<img src="/src/images/logo.png" alt="">
+							<img src="src/images/logo.png" alt="">
 						</a>
 						</div>
 						<nav class="flex px-5">
@@ -29,12 +29,9 @@
 						</nav>
 					</div>
 					<div class="flex items-center space-x-5 text-white">
-						<img src="/src/images/plus.png" alt="">
+						<img src="src/images/plus.png" alt="">
 						<div class="p-0.5 px-1.5 border border-solid border-white rounded-md">EN</div>
 						<span><a href="./profile.html">Profile</a></span>
-						<a target="_blank" href="/persons.html">
-							<img src="/src/images/span.svg" alt="">
-						</a>
 					</div>
 				</div>
 			</div>
@@ -97,7 +94,7 @@
 									<div class="w-full h-[310px] p-5 pl-0 overflow-x-scroll overflow-y-hidden flex gap-2 text-white scrollbar">
 										<template x-for="(asset,index) in assets" :key="index">
 											<div x-show="asset.poster_path != null" class="rounded-lg space-y-1 max-w-[135px] min-w-[135px]">
-												<a :href="`/movies.html?id=${asset.id}`" class="w-full h-[195px] block roundex-xl">
+												<a :href="`./movies.html?id=${asset.id}`" class="w-full h-[195px] block roundex-xl">
 													<img draggable="false" class="w-full h-full rounded-lg"
 														:src="`https://www.themoviedb.org/t/p/w300_and_h450_bestv2${asset.poster_path}`" alt="">
 												</a>

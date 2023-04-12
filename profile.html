@@ -4,11 +4,11 @@
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link id="API-Docs-Favicon" href="//www.themoviedb.org/favicon.ico" type="image/x-icon" rel="shortcut icon">
+	<link id="API-Docs-Favicon" href="www.themoviedb.org/favicon.ico" type="image/x-icon" rel="shortcut icon">
 	<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Source+Sans+Pro:wght@300;400;600;700&display=swap" rel="stylesheet">
 	<title>Profile</title>
-	<script defer src="/dist/bundle.js"></script>
-	<link rel="stylesheet" href="/dist/main.css">
+	<script defer src="dist/bundle.js"></script>
+	<link rel="stylesheet" href="dist/main.css">
 </head>
 <body class="w-full h-full bg-gray-900 relative" x-data="Profile">
 	<div x-data="toggleFavorite(assets)" class="w-full h-full" x-init="loadUserMovies">
@@ -102,7 +102,7 @@
 							</div>
 							<div class="h-auto rounded-b-2xl relative cursor-pointer z-[1] transition-all duration-200 "
 								:class="{'blur-sm' : toolTip === true , 'blur-none' : toolTip === false }">
-								<a :href="`/movies.html?id=${asset.id}`">
+								<a :href="`./movies.html?id=${asset.id}`">
 									<img class="h-full rounded-2xl" :src="`https://www.themoviedb.org/t/p/w440_and_h660_face/${asset.poster}`"
 										alt="">
 								</a>

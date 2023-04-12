@@ -5,7 +5,7 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<script defer src="dist/bundle.js"></script>
-	<link id="API-Docs-Favicon" href="//www.themoviedb.org/favicon.ico" type="image/x-icon" rel="shortcut icon">
+	<link id="API-Docs-Favicon" href="www.themoviedb.org/favicon.ico" type="image/x-icon" rel="shortcut icon">
 	<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Source+Sans+Pro:wght@300;400;600;700&display=swap" rel="stylesheet">
 	<link rel="stylesheet" href="dist/main.css">
 	<title>Movie App</title>
@@ -21,7 +21,7 @@
 					<div class="flex items-center">
 						<div>
 							<a href="index.html">
-								<img src="/src/images/logo.png" alt="">
+								<img src="src/images/logo.png" alt="">
 							</a>
 						</div>
 						<nav class="flex px-5">
@@ -34,12 +34,9 @@
 						</nav>
 					</div>
 					<div class="flex items-center space-x-5 text-white">
-						<img src="/src/images/plus.png" alt="">
+						<img src="src/images/plus.png" alt="">
 						<div class="p-0.5 px-1.5 border border-solid border-white rounded-md">EN</div>
 						<span><a href="./profile.html">Profile</a></span>
-						<a target="_blank" href="/persons.html">
-							<img src="/src/images/span.svg" alt="">
-						</a>
 					</div>
 				</div>
 			</div>
@@ -192,7 +189,7 @@
 										<div
 											
 											class="h-[70%] rounded-b-2xl relative cursor-pointer scale-110">
-											<a :href="`/movies.html?id=${asset.id}`">
+											<a :href="`./movies.html?id=${asset.id}`">
 												<img :src="`https://www.themoviedb.org/t/p/w710_and_h400_multi_faces/${asset.poster}`" alt=""
 												class="w-full h-full object-contain">
 											</a>
@@ -256,7 +253,7 @@
 						<div style="box-shadow: 0 2px 8px rgba(0,0,0,0.1);"
 							class="w-full h-[200px] rounded-xl bg-gray-800 border border-gray-900 flex overflow-hidden">
 							<div class="min-w-[135px] w-[135px] h-full cursor-pointer">
-								<a class="h-full w-full" :href="`/movies.html?id=${asset.id}`">
+								<a class="h-full w-full" :href="`./movies.html?id=${asset.id}`">
 									<img class="h-full w-full" :src="`https://www.themoviedb.org/t/p/w188_and_h282_bestv2/${asset.poster}`"
 										alt="">
 								</a>
