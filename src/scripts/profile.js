@@ -1,5 +1,5 @@
 import { addFavorite, fetchFavorite, toggleFavorite, fetchUsers } from "./addToFavorite";
-
+import { defaultUserImage } from "./defaultUserAvatar";
  
 
 const Profile = () =>{
@@ -9,6 +9,7 @@ const Profile = () =>{
 		name: '',
 		id:'',
 		date:'',
+		image:'',
 		register: null,
 		signIn: null,
 		signUp: null,
@@ -29,10 +30,12 @@ const Profile = () =>{
 			this.date = formattedDateString
 			this.name = fetchedData.name
 			this.id = fetchedData.id
+			this.image = fetchedData.image
 
-	
 			this.assets = fetchedData.movies.reverse()
 			this.IsSignOut = true
+
+			localStorage.setItem('userAvatar', fetchedData.image)
 
 		} else {
 			this.register = true
@@ -41,6 +44,45 @@ const Profile = () =>{
 
 
 	}
+
+	function handleFileUpload(event) {
+		const file = event.target.files[0];
+		const reader = new FileReader();
+	
+		const userId = localStorage.getItem('userId');
+		reader.onload = () => {
+			const img = new Image();
+			img.onload = () => {
+				if (img.width > 650 || img.height > 650) {
+					// Show error message
+					alert('Image dimensions should be 350x350 or smaller');
+					return;
+				}
+	
+				const base64Image = reader.result.split(',')[1];
+	
+				fetch(`https://642ff50dc26d69edc887858a.mockapi.io/api/v1/users/${userId}`, {
+					method: 'PUT',
+					headers: {
+						'Content-Type': 'application/json'
+					},
+					body: JSON.stringify({ image: base64Image })
+				})
+					.then(res => res.json())
+					.then(res => console.log(res))
+					.then(() => location.reload());
+
+					localStorage.setItem('userAvatar', base64Image)
+			};
+			img.src = URL.createObjectURL(file);
+		};
+		reader.readAsDataURL(file);
+	}
+	
+	
+	
+	
+	
 
 	const checkUser = function(user_name,user_pass){
 		const userName = user_name.toLowerCase()
@@ -51,6 +93,7 @@ const Profile = () =>{
 				if(item.name === userName && item.password === user_pass){
 					this.register = false
 					localStorage.setItem('userId', item.id)
+					localStorage.setItem('userAvatar', item.image)
 					location.reload()
 				} else {
 					this.error = 'No user found, register first'
@@ -61,7 +104,6 @@ const Profile = () =>{
 			console.error('Error:', error);
 		});
 	}
-
 	const registerUser = function(user_email, user_password,user_name) {
 		const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 		const userName = user_name.toLowerCase()
@@ -74,6 +116,7 @@ const Profile = () =>{
 				fetchUsers()
 				.then(data => {
 					const existingUser = data.find(item => item.email === user_email || item.name === userName);
+					// const defaultUserImage = ''
 					if (existingUser) {
 						console.log('User already exists.');
 						this.error = 'User already exists'
@@ -82,7 +125,8 @@ const Profile = () =>{
 							name:userName,
 							email: user_email,
 							movies: [],
-							password: user_password
+							password: user_password,
+							image: defaultUserImage(),
 						};
 						fetch('https://642ff50dc26d69edc887858a.mockapi.io/api/v1/users', {
 							method: 'POST',
@@ -128,7 +172,8 @@ const Profile = () =>{
 		addFavorite,
 		checkUser,
 		signOut,
-		registerUser
+		registerUser,
+		handleFileUpload
 }
 
 }

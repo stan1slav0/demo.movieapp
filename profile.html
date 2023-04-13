@@ -8,7 +8,7 @@
 	<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Source+Sans+Pro:wght@300;400;600;700&display=swap" rel="stylesheet">
 	<title>Profile</title>
 	<script defer src="dist/bundle.js"></script>
-	<link rel="stylesheet" href="dist/main.css">
+	<link rel="stylesheet" href="/dist/main.css">
 </head>
 <body class="w-full h-full bg-gray-900 relative" x-data="Profile">
 	<div x-data="toggleFavorite(assets)" class="w-full h-full" x-init="loadUserMovies">
@@ -24,7 +24,13 @@
 							</div>
 							<nav class="flex px-5">
 								<ul class="flex space-x-5 text-white">
-									<li>Movies</li>
+									<li class="relative">Movies
+									<!--	<div class="w-[100px] flex flex-col justify-center items-center absolute -left-[20px] top-[30px] bg-gray-800 p-1 px-1 rounded-xl">
+											<span class="border-b-none hover:border-b border-black cursor-pointer">Popular</span>
+											<span class="border-b-none hover:border-b border-black cursor-pointer">Popular</span>
+											<span class="border-b-none hover:border-b border-black cursor-pointer">Popular</span>
+										</div> -->
+									</li>
 									<li>TV Shows</li>
 									<li>People</li>
 									<li>More</li>
@@ -32,12 +38,13 @@
 							</nav>
 						</div>
 						<div class="flex items-center space-x-5 text-white">
-							<img src="/src/images/plus.png" alt="">
-							<div class="p-0.5 px-1.5 border border-solid border-white rounded-md">EN</div>
-							<span><a href="./profile.html">Profile</a></span>
-							<a target="_blank" href="/persons.html">
-								<img src="/src/images/span.svg" alt="">
-							</a>
+							<img src="src/images/plus.png" alt="">
+							<span>
+								<a class="w-[35px] h-[35px] flex flex-col items-center rounded-full overflow-hidden" href="./profile.html" >
+								<img x-show="localStorage.getItem('userAvatar') && !register" class="h-full w-full rounded-full" x-bind:src="'data:image/jpeg;base64,' + localStorage.getItem('userAvatar')" alt="">
+								<svg x-show="!localStorage.getItem('userAvatar') || register" class="h-[25px] w-[25px] fill-white mt-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M304 128a80 80 0 1 0 -160 0 80 80 0 1 0 160 0zM96 128a128 128 0 1 1 256 0A128 128 0 1 1 96 128zM49.3 464H398.7c-8.9-63.3-63.3-112-129-112H178.3c-65.7 0-120.1 48.7-129 112zM0 482.3C0 383.8 79.8 304 178.3 304h91.4C368.2 304 448 383.8 448 482.3c0 16.4-13.3 29.7-29.7 29.7H29.7C13.3 512 0 498.7 0 482.3z"/></svg>
+								</a>
+							</span>
 						</div>
 					</div>
 				</div>
@@ -46,32 +53,45 @@
 				<div
 				style="background: linear-gradient(to left, rgba(3,37,65) 10%, transparent), url('https://www.themoviedb.org/assets/2/v4/account_pipes/light_blue-a230b623827400e967c6eb7241d88086f2eb9264c0789d0dab15ae6f1df1421a.svg');background-size: cover;"
 				class="w-full h-[250px]">
-				<div class="w-[1300px] h-full mx-auto flex items-center py-10 pl-20 gap-10">
-					<div x-show="id !== '2'" class="h-[100px] w-[100px] flex items-center bg-blue-400 rounded-full p-5">
-						<svg class="w-full h-[50px] fill-white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
-							<path
-								d="M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512H418.3c16.4 0 29.7-13.3 29.7-29.7C448 383.8 368.2 304 269.7 304H178.3z" />
-						</svg>
-					</div>
-					<div x-show="id === '2'" class="h-[150px] w-[150px] flex items-center rounded-full p-5 overflow-hidden">
-						<img class="h-full w-full rounded-full" src="https://i.ibb.co/YLG1y0y/IMG-9757.jpg" alt="">
-					</div>
-					<div class="self-start mt-10">
-						<div class="flex gap-2 items-center">
-							<span class="text-xl font-bold text-white leading-0" x-text="name">Stasikbeast</span>
-							<span x-show="date" class="text-sm font-normal text-gray-300">Member since <span x-text="date"></span></span>
-							<button x-show="IsSignOut" x-on:click="signOut;IsSignOut = false"
-								class="text-sm font-normal text-white bg-blue-300 hover:bg-opacity-80 transition duration-200 flex items-center justify-center px-2 rounded-xl">Sign
-								out</button>
-			
+				<template x-if="!register">
+					<div class="w-[1300px] h-full mx-auto flex items-center py-10 pl-20">
+						<div class="flex gap-1 flex-col">
+							<template x-if="!register">
+								<div class="h-[150px] w-[150px] flex flex-col items-center rounded-full p-5 overflow-hidden">
+									<img x-show="image" class="h-full w-full rounded-full" x-bind:src="'data:image/jpeg;base64,' + image" alt="">
+									<img x-show="!image" class="h-full w-full rounded-full" src="https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png" alt="">
+								</div>
+							</template>
+								<div class="w-[155px] overflow-hidden ml-[10px]">
+									<label>
+										<input type="file" accept="image/*" @change="handleFileUpload($event)" type="file" class="text-sm text-grey-500
+										file:mr-5 file:py-1 file:px-4
+										file:rounded-full file:border-0
+										file:text-sm file:font-medium
+										file:bg-blue-50 file:text-blue-500
+										hover:file:cursor-pointer hover:file:bg-opacity-80
+										transition-all duration-200
+									" />
+								</label>
+								</div>
 						</div>
-						<div x-show="!register" class="mt-3 flex items-center gap-2">
-							<span class="text-lg font-semibold text-white">Total films in favorite</span>
-							<div class="bg-gray-300 rounded-full flex items-center justify-center px-2" x-text="list && list.length">10
+						<div class="self-start mt-10">
+							<div class="flex gap-2 items-center">
+								<span class="text-xl font-bold text-white leading-0" x-text="name"></span>
+								<span x-show="date" class="text-sm font-normal text-gray-300" x-text="`Member since ${date}`"></span>
+								<button x-show="IsSignOut" x-on:click="signOut;IsSignOut = false"
+									class="text-sm font-normal text-white bg-blue-300 hover:bg-opacity-80 transition duration-200 flex items-center justify-center px-2 rounded-xl">Sign
+									out</button>
+				
+							</div>
+							<div class="mt-3 flex items-center gap-2">
+								<span class="text-lg font-semibold text-white">Total films in favorite</span>
+								<div class="bg-gray-300 rounded-full flex items-center justify-center px-2" x-text="list && list.length">10
+								</div>
 							</div>
 						</div>
 					</div>
-				</div>
+				</template>
 			</div>
 			<div x-show="!register" class="w-[1300px] mx-auto mt-10">
 				<div class="flex flex-wrap w-full p-12 pl-16 py-0 gap-5">
@@ -118,35 +138,40 @@
 					</template>
 				</div>
 			</div>
-			<div class="w-full flex justify-center items-center mt-10">
-				<div x-show="register" x-data="{userEmail: '',userPassword: '',userName: '', login: null, showSignIn: true}" class="w-[550px] flex justify-between flex-col items-center mt-[50px] gap-5 border border-x-blue-300 border-y-blue-300 p-6 rounded-xl">
-					<!-- Login form -->
-					<form x-show="showSignIn" class="flex flex-col gap-1 w-full" x-on:submit.prevent="register">
-						<label class="text-blue-200 text-lg">Username:</label>
-						<input class="h-[40px] bg-transparent text-lg outline-none border border-x-blue-200 border-y-blue-200 rounded-md text-white pl-2 mb-4" type="name" x-model="userName" required>
-						<label class="text-blue-200 text-lg">Password:</label>
-						<input class="h-[40px] bg-transparent text-lg outline-none border border-x-blue-200 border-y-blue-200 rounded-md text-white pl-2 mb-4" type="password" x-model="userPassword" required>
-						<span x-show="error" class=" text-red-500" x-text="error"> No user found, register first</span>
-						<button class="h-[40px] mt-2 mb-4 bg-blue-400 flex items-center justify-center px-2 rounded-lg text-white hover:opacity-80 transition duration-200" type="submit" x-on:click="checkUser(userName,userPassword)">Sign In</button>
-						<span x-on:click="showSignIn = false;error = false" class="text-white mt-2 text-lg">Don't have an account? <span class="font-semibold text-blue-400 cursor-pointer hover:opacity-80 transition duration-300">Register now!</span></span>
-					</form>
-					<!-- Register form -->
-					<form x-show="!showSignIn" class="flex flex-col gap-1 w-full" x-on:submit.prevent="register">
-						<label class="text-blue-200 text-lg">Username:</label>
-						<input class="h-[40px] bg-transparent text-lg outline-none border border-x-blue-200 border-y-blue-200 rounded-md text-white pl-2 mb-4" type="name" x-model="userName" required>
-						<label class="text-blue-200 text-lg">Email:</label>
-						<input class="h-[40px] bg-transparent text-lg outline-none border border-x-blue-200 border-y-blue-200 rounded-md text-white pl-2 mb-4" type="email" x-model="userEmail" required>
-						<label class="text-blue-200 text-lg">Password:</label>
-						<input class="h-[40px] bg-transparent text-lg outline-none border border-x-blue-200 border-y-blue-200 rounded-md text-white pl-2 mb-4" type="password" x-model="userPassword" required>
-						<span x-show="error" class=" text-red-500 -mt-2" x-text="error"> User already exist</span>
-						<button class="h-[40px] mt-2 mb-4 bg-blue-400 flex items-center justify-center px-2 rounded-lg text-white hover:opacity-80 transition duration-200" type="submit" x-on:click="registerUser(userEmail,userPassword,userName)">Create account</button>
-						<span x-on:click="showSignIn = true;error = false" class="text-white mt-2 text-lg">Have an account? <span class="font-semibold text-blue-400 cursor-pointer hover:opacity-80 transition duration-300">Log in</span></span>
-					</form>
-				</div>
+	<template x-if="register">
+		<div class="w-full flex justify-center items-center mt-10">
+			<div x-data="{userEmail: '',userPassword: '',userName: '', login: null, showSignIn: true}" class="w-[550px] flex justify-between flex-col items-center mt-[50px] gap-5 border border-x-blue-300 border-y-blue-300 p-6 rounded-xl">
+				<!-- Login form -->
+				<form x-show="showSignIn" class="flex flex-col gap-1 w-full" x-on:submit.prevent="register">
+					<label class="text-blue-200 text-lg">Username:</label>
+					<input class="h-[40px] bg-transparent text-lg outline-none border border-x-blue-200 border-y-blue-200 rounded-md text-white pl-2 mb-4" type="name" x-model="userName" required>
+					<label class="text-blue-200 text-lg">Password:</label>
+					<input class="h-[40px] bg-transparent text-lg outline-none border border-x-blue-200 border-y-blue-200 rounded-md text-white pl-2 mb-4" type="password" x-model="userPassword" required>
+					<span x-show="error" class=" text-red-500" x-text="error"> No user found, register first</span>
+					<button class="h-[40px] mt-2 mb-4 bg-blue-400 flex items-center justify-center px-2 rounded-lg text-white hover:opacity-80 transition duration-200" type="submit" x-on:click="checkUser(userName,userPassword)">Sign In</button>
+					<span x-on:click="showSignIn = false;error = false" class="text-white mt-2 text-lg">Don't have an account? <span class="font-semibold text-blue-400 cursor-pointer hover:opacity-80 transition duration-300">Register now!</span></span>
+				</form>
+				<!-- Register form -->
+				<form x-show="!showSignIn" class="flex flex-col gap-1 w-full" x-on:submit.prevent="register">
+					<label class="text-blue-200 text-lg">Username:</label>
+					<input class="h-[40px] bg-transparent text-lg outline-none border border-x-blue-200 border-y-blue-200 rounded-md text-white pl-2 mb-4" type="name" x-model="userName" required>
+					<label class="text-blue-200 text-lg">Email:</label>
+					<input class="h-[40px] bg-transparent text-lg outline-none border border-x-blue-200 border-y-blue-200 rounded-md text-white pl-2 mb-4" type="email" x-model="userEmail" required>
+					<label class="text-blue-200 text-lg">Password:</label>
+					<input class="h-[40px] bg-transparent text-lg outline-none border border-x-blue-200 border-y-blue-200 rounded-md text-white pl-2 mb-4" type="password" x-model="userPassword" required>
+					<span x-show="error" class=" text-red-500 -mt-2" x-text="error"> User already exist</span>
+					<button class="h-[40px] mt-2 mb-4 bg-blue-400 flex items-center justify-center px-2 rounded-lg text-white hover:opacity-80 transition duration-200" type="submit" x-on:click="registerUser(userEmail,userPassword,userName)">Create account</button>
+					<span x-on:click="showSignIn = true;error = false" class="text-white mt-2 text-lg">Have an account? <span class="font-semibold text-blue-400 cursor-pointer hover:opacity-80 transition duration-300">Log in</span></span>
+
+				</form>
 			</div>
+		</div>
+	</template>
 			</main>
-			<footer class="w-full h-[285px] bg-[#032541]">
-				<div class="w-[1300px] h-full mx-auto flex items-center justify-center py-10 pl-20 gap-10">
+			<footer x-data="{footerTip : false}" x-on:mouseover="footerTip = true" x-on:mouseout="footerTip = false" class="w-full h-[285px] bg-[#032541] relative">
+				<div class="w-[1300px] h-full mx-auto flex items-center justify-center py-10 pl-20 gap-10" :class="{
+					'blur-md' : footerTip === true, 'blur-none' : footerTip === false
+				}">
 					<div class="w-[150px] h-full flex flex-col gap-10">
 						<img class="h-auto w-full" src="https://www.themoviedb.org/assets/2/v4/logos/v2/blue_square_2-d537fb228cf3ded904ef09b136fe3fec72548ebc1fea3fbbd1ad9e36364db38b.svg" alt="">
 						<button x-show="name" class="w-full p-4 text-blue-400 font-bold text-lg leading-none bg-white rounded-lg" x-text="`Hi ${name}`"></button>
@@ -189,6 +214,7 @@
 						</div>
 					</div>
 				</div>
+				<div x-show="footerTip" class="text-2xl text-white absolute top-0 w-full h-full flex justify-center items-center">It's just hardcoded footer</div>
 			</footer>
 		</div>
 	</div>
