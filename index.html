@@ -17,14 +17,14 @@
 	<div x-data="Movies()" class="relative">
 		<header class="h-full overflow-y-scroll">
 			<div class="w-full h-[64px] bg-[#032541] flex justify-center items-center">
-				<div class="w-[1300px] px-8 flex items-center justify-between">
+				<div class="w-full sm:w-[1300px] px-8 flex items-center justify-between">
 					<div class="flex items-center">
-						<div>
-							<a href="index.html">
-								<img src="src/images/logo.png" alt="">
+						<div class="h-[15px] sm:h-full">
+							<a class="h-full" href="index.html">
+								<img class="h-full" src="src/images/logo.png" alt="">
 							</a>
 						</div>
-						<nav class="flex px-5">
+						<nav class="px-5 hidden sm:flex">
 							<ul class="flex space-x-5 text-white">
 								<li>Movies</li>
 								<li>TV Shows</li>
@@ -33,28 +33,29 @@
 							</ul>
 						</nav>
 					</div>
-					<div class="flex items-center space-x-5 text-white">
-						<img src="src/images/plus.png" alt="">
+					<div class="flex flex-col sm:flex-row sm:gap-1 justify-center items-center text-white">
 						<span>
 							<a class="w-[35px] h-[35px] flex flex-col items-center rounded-full overflow-hidden" href="./profile.html" >
-							<img x-show="localStorage.getItem('userAvatar')" class="h-full w-full rounded-full" x-bind:src="'data:image/jpeg;base64,' + localStorage.getItem('userAvatar')" alt="">
-							<svg x-show="!localStorage.getItem('userAvatar')" class="h-[25px] w-[25px] fill-white mt-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M304 128a80 80 0 1 0 -160 0 80 80 0 1 0 160 0zM96 128a128 128 0 1 1 256 0A128 128 0 1 1 96 128zM49.3 464H398.7c-8.9-63.3-63.3-112-129-112H178.3c-65.7 0-120.1 48.7-129 112zM0 482.3C0 383.8 79.8 304 178.3 304h91.4C368.2 304 448 383.8 448 482.3c0 16.4-13.3 29.7-29.7 29.7H29.7C13.3 512 0 498.7 0 482.3z"/></svg>
+								<img x-show="localStorage.getItem('userAvatar')" class="h-full w-full rounded-full" x-bind:src="'data:image/jpeg;base64,' + localStorage.getItem('userAvatar')" alt="">
+								<img x-show="!localStorage.getItem('userAvatar')" class="h-full w-full rounded-full" src="https://icon-library.com/images/movie-icon-png/movie-icon-png-2.jpg" alt="">
 							</a>
 						</span>
+					<!--	<span class="text-sm">Profile</span> -->
+
 					</div>
 				</div>
 			</div>
 		</header>
-		<main x-data="{query:'', assets: [], submitForm: ''}" class="w-[1300px] mx-auto mb-[100px]">
-			<div style="background: linear-gradient(to left, rgba(3,37,65) 10%, transparent), url('https://www.themoviedb.org/t/p/w1920_and_h600_multi_faces_filter(duotone,00192f,00baff)/kSNojkWwSZWsYv0Xj1gcq88okzY.jpg');background-size: cover;" class="w-full px-[40px] py-[80px]">
+		<main x-data="{query:'', assets: [], submitForm: ''}" class="w-auto lg:w-[1300px] mx-auto mb-[100px]">
+			<div style="background: linear-gradient(to left, rgba(3,37,65) 10%, transparent), url('https://www.themoviedb.org/t/p/w1920_and_h600_multi_faces_filter(duotone,00192f,00baff)/kSNojkWwSZWsYv0Xj1gcq88okzY.jpg');background-size: cover;" class="w-full p-6 sm:px-[40px] sm:py-[80px]">
 				<div class="flex flex-col space-y-2">
-					<span class="text-5xl text-white font-semibold">Welcome.</span>
-					<span class="text-3xl text-white font-semibold">Millions of movies, TV shows and people to discover. Explore now.</span>
+					<span class="text-5xl sm:text-5xl text-white font-semibold">Welcome.</span>
+					<span class="text-2xl sm:text-3xl text-white font-semibold">Millions of movies, TV shows and people to discover. Explore now.</span>
 				</div>
-				<div class="w-full mt-20">
-					<div class="w-full h-[46px] bg-white rounded-3xl flex justify-between">
+				<div class="w-full mt-10 sm:mt-20">
+					<div class="w-full h-10 sm:h-[46px] bg-white rounded-3xl flex justify-between">
 						<form x-on:submit.prevent="submitForm" action="" class="w-full flex items-center">
-							<input x-ref="inputValue" placeholder="Search for a movie, tv show, person......" type="text" class="rounded-l-3xl w-full pl-5 outline-none relative" x-model="query" x-on:input="if(query.length < 1) {isSearch = false} else {loadMoviesByName(query); isSearch = true; all = true; movies = false; tv = false; person = false}">
+							<input x-ref="inputValue" placeholder="Search for a movies" type="text" class="rounded-l-3xl w-full pl-5 outline-none relative" x-model="query" x-on:input="if(query.length < 1) {isSearch = false} else {loadMoviesByName(query); isSearch = true; all = true; movies = false; tv = false; person = false}">
 							<div class="h-full flex items-center space-x-4">
 								<div x-show="query.length >= 1" x-on:click="isSearch = false;query = ''" class="w-[10px] h-[10px] cursor-pointer hover:opacity-70 transition duration-150">
 									<svg class="fill-blue-500 -mt-0.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
@@ -71,9 +72,12 @@
 					</div>
 				</div>
 			</div>
+
+
+
 			<div x-show="!isSearch" x-init="loadTrendingMovies('day');" x-data="{weekTrending : false, dayTrending : true}"
-				class="pl-[30px] relative">
-				<div class="py-[30px]">
+				class="px-4 sm:pl-[30px] relative">
+				<div class="py-4 sm:py-[30px]">
 					<div class="flex space-x-4 items-center">
 						<div class="flex space-x-4 items-center">
 							<span class="text-2xl text-white">Trending</span>
@@ -93,8 +97,6 @@
 						</div>
 					</div>
 				</div>
-				<div style="box-shadow: inset -60px 0px 42px -43px white; z-index: 9;" class="right-0 h-[315px] w-[100px] absolute">
-				</div>
 				<div x-ref="scrollable" class="flex w-full overflow-scroll  relative scrollbar pb-3 min-h-[315px]">
 					<div x-show="isLoading" class="w-full bg-white absolute top-0 left-0 z-[99] flex h-[315px]">
 						<svg class="w-[50px]" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -107,13 +109,13 @@
 							</circle>
 						</svg>
 					</div>
-					<div x-data="toggleFavorite()" x-show="!isLoading" class="flex space-x-2">
+					<div x-data="toggleFavorite()" x-show="!isLoading" class="flex gap-3 sm:gap-0 sm:space-x-2">
 						<template x-for="(asset, index) in assets" :key="asset.id">
 							<div x-show="asset.poster && asset.title" x-data="{toolTip : false}" x-on:click.away="toolTip = false"
-								class="min-w-[170px] max-w-[170px] h-auto rounded-2xl overflow-hidden relative   z-[1]">
+								class="min-w-[170px] max-w-[170px] h-auto rounded-2xl overflow-hidden relative z-[1]">
 								<div x-show="localStorage.hasOwnProperty('userId')">
 									<button x-on:click="toolTip = !toolTip;"
-										class="w-6 h-6 absolute top-2 right-2 bg-gray-900 rounded-full px-1  z-[9]">
+										class="w-7 h-7 sm:w-6 sm:h-6 absolute top-2 right-2 bg-gray-900 rounded-full px-1  z-[9]">
 										<svg class="w-full h-full fill-white" xmlns="http://www.w3.org/2000/svg"
 											viewBox="0 0 448 512"><!--! Font Awesome Pro 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
 											<path
@@ -158,14 +160,18 @@
 					</div>
 				</div>
 			</div>
+
+
+
+
 			<div x-show="!isSearch" x-init="loadMoviesSecondBlock('popular')" x-transition
-				class="pl-[30px] w-full h-full relative mt-12 rounded-xl overflow-hidden">
+				class="px-4 sm:pl-[30px] w-full h-full relative mt-7 sm:mt-12 rounded-xl overflow-hidden">
 				<div x-data="{ hoveredId: ''}" x-transition
 					:style="`background: url('https://image.tmdb.org/t/p/w1920_and_h427_multi_faces/${hoveredId || firstMovie}');background-position: center center;background-size: cover;background-repeat: no-repeat;color: #fff;transition: all 0.5s;`"
-					class="w-full h-[350px] rounded-xl overflow-hidden">
+					class="w-full h-[300px] sm:h-[350px] rounded-xl overflow-hidden">
 					<div style="background: linear-gradient(to left, rgba(3,37,65) 10%, transparent)"
 						class="w-full h-full rounded-xl overflow-hidden">
-						<div class="p-7">
+						<div class="p-2 sm:p-7">
 							<div class="pb-[20px] relative z-1">
 								<div class="flex space-x-4 items-center">
 									<span class="text-2xl text-white">Movies</span>
@@ -173,16 +179,16 @@
 										class="rounded-2xl border border-[#80E9BC] overflow-hidden h-[30px] w-auto flex items-center justify-between relative">
 										<div style="transition: all 0.3s linear;"
 											class="h-full bg-[#80E9BC] rounded-2xl absolute top-0 z-[1] transition duration-300"
-											x-bind:class="{'left-0 w-[85px]': popular === true, 'left-[94px] w-[85px]' : top === true, 'left-[185px] w-[105px]' : upcoming === true}">
+											x-bind:class="{'left-0 w-[80px] sm:w-[85px]': popular === true, 'left-[70px] sm:left-[94px] w-[85px]' : top === true, 'left-[146px] sm:left- [185px] w-[105px]' : upcoming === true}">
 										</div>
 										<button x-on:click="popular = true; top = false; upcoming = false; loadMoviesSecondBlock('popular')"
-											class="h-full px-4 leading-none flex items-center rounded-2xl cursor-pointer z-[2] transition duration-300"
+											class="text-sm sm:text-base h-full px-4 leading-none flex items-center rounded-2xl cursor-pointer z-[2] transition duration-300"
 											:class="{' text-[#032441]': popular === true, 'text-white' : popular === false}">Popular</button>
 										<button x-on:click="popular = false; top = true; upcoming = false; loadMoviesSecondBlock('top_rated')"
-											class="h-full px-4 leading-none flex items-center rounded-2xl cursor-pointer z-[2] transition duration-300"
+											class="text-sm sm:text-base h-full px-4 leading-none flex items-center rounded-2xl cursor-pointer z-[2] transition duration-300"
 											:class="{' text-[#032441]': top === true, 'text-white' : top === false}">Top rated</button>
 										<button x-on:click="popular = false; top = false; upcoming = true; loadMoviesSecondBlock('upcoming')"
-											class="h-full px-4 leading-none flex items-center rounded-2xl cursor-pointer z-[2] transition duration-300"
+											class="text-sm sm:text-base h-full px-4 leading-none flex items-center rounded-2xl cursor-pointer z-[2] transition duration-300"
 											:class="{' text-[#032441]': upcoming === true, 'text-white' : upcoming === false}">Upcoming</button>
 									</div>
 								</div>
@@ -192,10 +198,10 @@
 									<div x-on:mouseover="hoveredId = asset.poster" class="min-w-[300px] h-[230px] rounded-2xl overflow-hidden ">
 										<div
 											
-											class="h-[70%] rounded-b-2xl relative cursor-pointer scale-110">
-											<a :href="`./movies.html?id=${asset.id}`">
+											class="h-auto rounded-xl sm:rounded-b-2xl relative cursor-pointer">
+											<a class="rounded-xl" :href="`./movies.html?id=${asset.id}`">
 												<img :src="`https://www.themoviedb.org/t/p/w710_and_h400_multi_faces/${asset.poster}`" alt=""
-												class="w-full h-full object-contain">
+												class="w-full h-full rounded-xl object-contain">
 											</a>
 										</div>
 										<div class="pl-4 pt-3 flex flex-col relative z-10">
@@ -209,76 +215,83 @@
 					</div>
 				</div>
 			</div>
-			<div x-show="isSearch" class="max-w-full flex justify-between pt-5 space-x-4">
-				<div class="w-[20%] rounded-2xl">
-					<div class="bg-[#01B4E4] py-6 px-4 rounded-t-xl">
-						<span class="text-2xl text-gray-900">Search Results</span>
+			<div x-show="isSearch" class="max-w-full flex flex-col sm:flex-row justify-between pt-1 sm:px-0 sm:space-x-4">
+				<div class="w-full sm:w-[20%] rounded-2xl">
+					<div class="bg-[#01B4E4] p-2 sm:py-6 sm:px-4 sm:rounded-t-xl">
+						<span class="text-sm sm:text-2xl text-gray-700">Search Results</span>
 					</div>
-					<div class="flex flex-col space-y-1 overflow-hidden">
+					<div class="flex flex-row sm:flex-col w-full h-auto pt-1 px-0.5 sm:px-0 sm:pt-0 justify-between sm:justify-start space-x-1 sm:space-y-1 sm:space-x-0 overflow-hidden">
 						<div x-on:click="searchAssets = movieType.total; all = true; movies = false; tv = false; person = false;"
-							class="flex items-center justify-between p-3 cursor-pointer bg-gray-800 hover:bg-opacity-80 transition duration-150"
+							class="flex gap-1 items-center h-[35px] sm:h-auto sm:mt-0 justify-between p-1 sm:p-3 cursor-pointer bg-gray-800 hover:bg-opacity-80 transition duration-150 rounded-xl sm:rounded-none"
 							x-bind:class="{'bg-opacity-100 border border-gray-700': all === true, 'bg-opacity-50' : all === false}">
-							<span class="text-gray-100">All</span>
+							<span class="text-gray-100 text-sm">All</span>
 							<div class="py-0.5 px-3 bg-gray-900 text-gray-300 text-center rounded-xl text-sm">
 								<span x-text="`${movieType.total && movieType.total.length ? movieType.total.length : 0}`">205</span>
 							</div>
 						</div>
 						<div x-on:click="searchAssets = movieType.movie;all = false; movies = true; tv = false; person = false;"
-							class="flex items-center justify-between p-3 cursor-pointer bg-gray-800 hover:bg-opacity-80 transition duration-150"
+							class="flex gap-1 items-center h-[35px] sm:h-auto sm:mt-0 justify-between p-1 sm:p-3 cursor-pointer bg-gray-800 hover:bg-opacity-80 transition duration-150 rounded-xl sm:rounded-none"
 							x-bind:class="{'bg-opacity-100 border border-gray-700': movies === true, 'bg-opacity-50' : movies === false}">
-							<span class="text-gray-100">Movies</span>
+							<span class="text-gray-100 text-sm">Movies</span>
 							<div class="py-0.5 px-3 bg-gray-900 text-gray-300 text-center rounded-xl text-sm">
 								<span x-text="`${movieType.movie && movieType.movie.length ? movieType.movie.length : 0}`">205</span>
 							</div>
 						</div>
 						<div x-on:click="searchAssets = movieType.tv ;all = false; movies = false; tv = true; person = false;"
-							class="flex items-center justify-between p-3 cursor-pointer bg-gray-800 hover:bg-opacity-80 transition duration-150"
+							class="flex gap-1 items-center h-[35px] sm:h-auto sm:mt-0 justify-between p-1 sm:p-3 cursor-pointer bg-gray-800 hover:bg-opacity-80 transition duration-150 rounded-xl sm:rounded-none"
 							x-bind:class="{'bg-opacity-100 border border-gray-700': tv === true, 'bg-opacity-50' : tv === false}">
-							<span class="text-gray-100">TV Programs</span>
+							<span class="text-gray-100 text-sm sm:text-sm">TV</span>
 							<div class="py-0.5 px-3 bg-gray-900 text-gray-300 text-center rounded-xl text-sm">
 								<span x-text="`${movieType.tv && movieType.tv.length ? movieType.tv.length : 0}`">205</span>
 							</div>
 						</div>
 						<div x-on:click="searchAssets = movieType.person; all = false; movies = false; tv = false; person = true;"
-							class="flex items-center justify-between p-3 cursor-pointer bg-gray-800 hover:bg-opacity-80 transition duration-150"
+							class="flex gap-1 items-center h-[35px] sm:h-auto sm:mt-0 justify-between p-1 sm:p-3 cursor-pointer bg-gray-800 hover:bg-opacity-80 transition duration-150 rounded-xl sm:rounded-none"
 							x-bind:class="{'bg-opacity-100 border border-gray-700': person === true, 'bg-opacity-50' : person === false}">
-							<span class="text-gray-100">Collections</span>
+							<span class="text-gray-100 text-sm">Collections</span>
 							<div class="py-0.5 px-3 bg-gray-900 text-gray-300 text-center rounded-xl text-sm">
 								<span x-text="`${movieType.person && movieType.person.length ? movieType.person.length : 0}`">205</span>
 							</div>
 						</div>
 					</div>
 				</div>
-				<div class="w-[80%] justify-end space-y-4">
+				<div class="w-full sm:w-[80%] justify-end space-y-1 sm:space-y-4 px-1 sm:p-0">
 					<div x-show="searchAssets.length === 0 && searchValue != ''" class="mt-5 flex items-center justify-center">
 						<span x-text="`No results found`" class="text-lg font-semibold text-gray-100 mt-5"></span>
 					</div>
 					<template x-for="(asset, index) in searchAssets" :key="index">
+
+
 						<div style="box-shadow: 0 2px 8px rgba(0,0,0,0.1);"
-							class="w-full h-[200px] rounded-xl bg-gray-800 border border-gray-900 flex overflow-hidden">
-							<div class="min-w-[135px] w-[135px] h-full cursor-pointer">
+							class="w-full h-[150px] sm:h-[200px] rounded-xl bg-gray-800 border border-gray-900 flex overflow-hidden">
+
+
+							<div class="min-w-[105px] w-[105px] sm:min-w-[105px] sm:w-[135px] h-full cursor-pointer">
 								<a class="h-full w-full" :href="`./movies.html?id=${asset.id}`">
 									<img class="h-full w-full" :src="`https://www.themoviedb.org/t/p/w188_and_h282_bestv2/${asset.poster}`"
 										alt="">
 								</a>
 							</div>
-							<div class="flex w-full p-4 pt-8 flex-col space-y-4">
+							<div class="flex w-full p-4 pt-2 sm:pt-8 flex-col justify-around space-y-4">
 								<div
 									class="cursor-pointer">
-									<h3 class="text-xl font-semibold leading-none text-gray-200" x-text="asset.title || asset.name"></h3>
-									<span class="text-base text-gray-500 leading-none" x-text="asset.data"></span>
+									<h3 class="text-lg sm:text-xl font-semibold leading-6 sm:leading-none text-gray-200" x-text="asset.title || asset.name"></h3>
+									<span class="text-sm sm:text-base text-gray-500 leading-none" x-text="asset.data"></span>
 								</div>
-								<div class="h-[70px] overflow-hidden text-gray-300 opacity-80">
-									<span x-text="asset.overview"></span>
+								<div class="overflow-hidden text-gray-300 opacity-80 break-all">
+									<span class="text-sm sm:text-sm line-clamp-3" x-text="asset.overview"></span>
 								</div>
 							</div>
 						</div>
+
+
+
 					</template>
 				</div>
 			</div>
 		</main>
-		<footer class=" w-full h-[380px] bg-[#032541]">
-			<div class="w-[1300px] h-full mx-auto flex items-center justify-center py-10 pl-20 pt-[80px] gap-10">
+	<footer class="flex items-center w-full h-[300px] sm:h-[380px] bg-[#032541]">
+			<div class="w-auto lg:w-[1300px] h-auto sm:h-full mx-auto flex items-center justify-center sm:py-10 sm:pl-20 sm:pt-[80px] gap-10">
 				<div class="w-[150px] h-full flex flex-col gap-10">
 					<img class="h-auto w-full"
 						src="https://www.themoviedb.org/assets/2/v4/logos/v2/blue_square_2-d537fb228cf3ded904ef09b136fe3fec72548ebc1fea3fbbd1ad9e36364db38b.svg"
@@ -286,7 +299,7 @@
 					<button
 						class="w-full h-[50px] p-4 text-blue-400 font-bold text-lg leading-none bg-white rounded-lg">Hi,Stasikbeast</button>
 				</div>
-				<div class="w-auto flex gap-10">
+				<div class="hidden sm:flex w-auto gap-10">
 					<div class="text-white">
 						<span class="text-xl uppercase font-bold"> The basics</span>
 						<div class="flex flex-col font-light text-gray-300">
