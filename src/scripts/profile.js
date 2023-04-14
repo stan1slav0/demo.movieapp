@@ -34,11 +34,6 @@ const Profile = () =>{
 			this.assets = fetchedData.movies.reverse()
 			this.IsSignOut = true
 
-			if(fetchedData.image === undefined){
-				return 
-			} else {
-				localStorage.setItem('userAvatar', fetchedData.image)
-			}
 
 		} else {
 			this.register = true
