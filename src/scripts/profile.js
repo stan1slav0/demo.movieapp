@@ -34,6 +34,8 @@ const Profile = () =>{
 			this.assets = fetchedData.movies.reverse()
 			this.IsSignOut = true
 
+			localStorage.setItem('userName', fetchedData.name)
+
 
 		} else {
 			this.register = true
