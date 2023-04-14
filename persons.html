@@ -9,110 +9,237 @@
 		<link rel="stylesheet" href="dist/main.css">
 		<title>Actor Info</title>
 	</head>
-<body class="w-full h-screen bg-gray-900" x-data="Persons" x-init="loadActorByID">
-		<main class="w-full h-full">
-			<div class="w-full h-[64px] bg-[#032541] flex justify-center items-center">
-				<div class="w-[1300px] px-8 flex items-center justify-between">
-					<div class="flex items-center">
-						<div>
-						<a href="index.html">	
-							<img src="src/images/logo.png" alt="">
-						</a>
-						</div>
-						<nav class="flex px-5">
-							<ul class="flex space-x-5 text-white">
-								<li>Movies</li>
-								<li>TV Shows</li>
-								<li>People</li>
-								<li>More</li>
-							</ul>
-						</nav>
-					</div>
-					<div class="flex items-center space-x-5 text-white">
-						<img src="src/images/plus.png" alt="">
-						<span>
-							<a class="w-[35px] h-[35px] flex flex-col items-center rounded-full overflow-hidden" href="./profile.html" >
-							<img x-show="localStorage.getItem('userAvatar')" class="h-full w-full rounded-full" x-bind:src="'data:image/jpeg;base64,' + localStorage.getItem('userAvatar')" alt="">
-							<svg x-show="!localStorage.getItem('userAvatar')" class="h-[25px] w-[25px] fill-white mt-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M304 128a80 80 0 1 0 -160 0 80 80 0 1 0 160 0zM96 128a128 128 0 1 1 256 0A128 128 0 1 1 96 128zM49.3 464H398.7c-8.9-63.3-63.3-112-129-112H178.3c-65.7 0-120.1 48.7-129 112zM0 482.3C0 383.8 79.8 304 178.3 304h91.4C368.2 304 448 383.8 448 482.3c0 16.4-13.3 29.7-29.7 29.7H29.7C13.3 512 0 498.7 0 482.3z"/></svg>
-							</a>
-						</span>
-					</div>
-				</div>
-			</div>
-					<div class="w-[1300px] mx-auto pt-5 flex space-x-10 pb-10">
-							<div class="flex flex-col">
-								<div class="w-[300px] h-[450px] mb-4 rounded-xl overflow-hidden">
-									<img class="w-full h-full" :src="`https://www.themoviedb.org/t/p/w600_and_h900_bestv2${actorInfo.image}`" alt="">
-								</div>
-								<div class="space-y-2">
-									<a x-show="actorInfo.imdb_id" target="_blank" :href="`https://www.imdb.com/name/${actorInfo.imdb_id}`"
-										class="hover:opacity-70 transition duration-200">
-										<svg class="w-6 h-6 fill-[#F5C518]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
-											<path
-												d="M400 32H48C21.5 32 0 53.5 0 80v352c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48V80c0-26.5-21.5-48-48-48zM21.3 229.2H21c.1-.1.2-.3.3-.4zM97 319.8H64V192h33zm113.2 0h-28.7v-86.4l-11.6 86.4h-20.6l-12.2-84.5v84.5h-29V192h42.8c3.3 19.8 6 39.9 8.7 59.9l7.6-59.9h43zm11.4 0V192h24.6c17.6 0 44.7-1.6 49 20.9 1.7 7.6 1.4 16.3 1.4 24.4 0 88.5 11.1 82.6-75 82.5zm160.9-29.2c0 15.7-2.4 30.9-22.2 30.9-9 0-15.2-3-20.9-9.8l-1.9 8.1h-29.8V192h31.7v41.7c6-6.5 12-9.2 20.9-9.2 21.4 0 22.2 12.8 22.2 30.1zM265 229.9c0-9.7 1.6-16-10.3-16v83.7c12.2.3 10.3-8.7 10.3-18.4zm85.5 26.1c0-5.4 1.1-12.7-6.2-12.7-6 0-4.9 8.9-4.9 12.7 0 .6-1.1 39.6 1.1 44.7.8 1.6 2.2 2.4 3.8 2.4 7.8 0 6.2-9 6.2-14.4z" />
-										</svg>
-									</a>
-									<div class="text-white space-y-4">
-										<h3 class="font-bold text-xl">Personal info</h3>
-										<div x-show="actorInfo.known_for_department" class="flex flex-col mb-2">
-											<span class="font-semibold text-sm">Known For</span>
-											<span class="font-normal text-gray-400" x-text="actorInfo.known_for_department">Acting</span>
-										</div>
-										<div x-show="actorInfo.popularity" class="flex flex-col mb-2">
-											<span class="font-semibold text-sm">Known Credits</span>
-											<span class="font-normal text-gray-400" x-text="actorInfo.popularity">62</span>
-										</div>
-										<div x-show="actorInfo.gender" class="flex flex-col mb-2">
-											<span class="font-semibold text-sm">Gender</span>
-											<span class="font-normal text-gray-400" x-text="actorInfo.gender">Male</span>
-										</div>
-										<div x-show="actorInfo.birthday" class="flex flex-col mb-2">
-											<span class="font-semibold text-sm">Birthday</span>
-											<span class="font-normal text-gray-400" x-text="actorInfo.birthday">04-04-1997</span>
-										</div>
-										<div x-show="actorInfo.deathday" class="flex flex-col mb-2">
-											<span class="font-semibold text-sm">Deathday</span>
-											<span class="font-normal text-gray-400" x-text="actorInfo.deathday">04-04-1997</span>
-										</div>
-										<div x-show="actorInfo.place_of_birth" class="flex flex-col mb-2">
-											<span class="font-semibold text-sm">Place of Birth</span>
-											<span class="font-normal text-gray-400" x-text="actorInfo.place_of_birth">04-04-1997</span>
-										</div>
-										<div x-show="actorInfo.also_known_as" class="flex flex-col mb-2">
-											<span class="font-semibold text-sm">Also Known As</span>
-											<template x-for="(item,index) in actorInfo.also_known_as" :key="index">
-												<span class="font-normal text-gray-400" x-text="item">04-04-1997</span>
-											</template>
-										</div>
-									</div>
-								</div>
+<body class="w-full h-auto bg-gray-900" x-data="Persons" x-init="loadActorByID">
+		<div x-data="{ imageLoaded: false }">
+				<header class="w-full h-[64px] bg-[#032541] flex justify-center items-center">
+					<div class="w-full sm:w-[1300px] px-8 flex items-center justify-between">
+						<div class="flex items-center">
+							<div class="h-[15px] sm:h-full">
+								<a class="h-full" href="index.html">
+									<img class="h-full" src="src/images/logo.png" alt="">
+								</a>
 							</div>
-							<div class="overflow-hidden">
-								<h2 class="text-3xl font-bold text-white mb-6" x-text="actorInfo.name"></h2>
-								<div x-show="actorInfo.biography" class="space-y-1 mb-5">
-									<span class="text-white font-semi-bold text-lg">Biography</span>
-									<p x-text="actorInfo.biography" class="text-base text-gray-400 whitespace-pre-wrap"></p>
+							<nav class="px-5 hidden sm:flex">
+								<ul class="flex space-x-5 text-white">
+									<li>Movies</li>
+									<li>TV Shows</li>
+									<li>People</li>
+									<li>More</li>
+								</ul>
+							</nav>
+						</div>
+						<div class="flex flex-col sm:flex-row sm:gap-1 justify-center items-center text-white">
+							<a href="./profile.html">
+								<div class="flex flex-col items-center gap-0.5">
+									<div class="w-[25px] h-[25px] flex flex-col items-center rounded-full overflow-hidden"  >
+										<img x-show="localStorage.getItem('userAvatar')" class="h-full w-full rounded-full" x-bind:src="'data:image/jpeg;base64,' + localStorage.getItem('userAvatar')" alt="">
+										<img x-show="!localStorage.getItem('userAvatar')" class="h-full w-full rounded-full" src="https://icon-library.com/images/movie-icon-png/movie-icon-png-2.jpg" alt="">
+									</div>
+									<span class="text-xs">Profile</span>
 								</div>
-								<div x-show="assets.length >= 1" class="min-w-[500px] h-[350px] relative pb-[45px]">
-									<h3 class="font-bold text-white text-lg">Known For</h3>
-									<div class="w-full h-[310px] p-5 pl-0 overflow-x-scroll overflow-y-hidden flex gap-2 text-white scrollbar">
-										<template x-for="(asset,index) in assets" :key="index">
-											<div x-show="asset.poster_path != null" class="rounded-lg space-y-1 max-w-[135px] min-w-[135px]">
-												<a :href="`./movies.html?id=${asset.id}`" class="w-full h-[195px] block roundex-xl">
-													<img draggable="false" class="w-full h-full rounded-lg"
-														:src="`https://www.themoviedb.org/t/p/w300_and_h450_bestv2${asset.poster_path}`" alt="">
-												</a>
-												<div class="flex flex-col">
-													<span class="font-semibold text-base" x-text="asset.title"></span>
-													<span class="text-xs text-gray-300" x-text="asset.character"></span>
-												</div>
-											</div>
+							</a>
+						</div>
+					</div>
+				</header>
+			<main  class="w-full h-full relative">
+
+	
+				<div x-show="!imageLoaded" class="w-full h-full bg-gray-900 absolute top-0 left-0 z-[99] flex">
+					<svg class="w-[50px]" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+						style="margin: auto; background: transparent; display: block; shape-rendering: auto;" width="200px"
+						height="200px" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid">
+						<circle cx="50" cy="50" fill="none" stroke="#56E3B6" stroke-width="10" r="35"
+							stroke-dasharray="164.93361431346415 56.97787143782138">
+							<animateTransform attributeName="transform" type="rotate" repeatCount="indefinite" dur="1s"
+								values="0 50 50;360 50 50" keyTimes="0;1"></animateTransform>
+						</circle>
+					</svg>
+				</div>
+	
+	
+				<div x-show="imageLoaded" class="w-full sm:w-[1300px] mx-auto p-4 sm:pt-5 flex flex-col sm:flex-row sm:space-x-10 sm:pb-10">
+						<div class="flex flex-col w-full items-center sm:items-start rounded-xl sm:min-w-[300px] sm:w-[300px]" >
+							<div class="h-[350px] w-[250px] sm:h-[450px] sm:min-w-[300px] sm:max-w-[400px]">
+								<img class="h-full w-full rounded-xl" x-bind:src="`https://www.themoviedb.org/t/p/w600_and_h900_bestv2${actorInfo.image}`" alt="" x-on:load="imageLoaded = true">
+							</div>
+	
+	
+							<div class="hidden sm:block space-y-2 sm:mt-4">
+								<a x-show="actorInfo.imdb_id" target="_blank" :href="`https://www.imdb.com/name/${actorInfo.imdb_id}`"
+									class="hover:opacity-70 transition duration-200">
+									<svg class="w-6 h-6 fill-[#F5C518]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+										<path
+											d="M400 32H48C21.5 32 0 53.5 0 80v352c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48V80c0-26.5-21.5-48-48-48zM21.3 229.2H21c.1-.1.2-.3.3-.4zM97 319.8H64V192h33zm113.2 0h-28.7v-86.4l-11.6 86.4h-20.6l-12.2-84.5v84.5h-29V192h42.8c3.3 19.8 6 39.9 8.7 59.9l7.6-59.9h43zm11.4 0V192h24.6c17.6 0 44.7-1.6 49 20.9 1.7 7.6 1.4 16.3 1.4 24.4 0 88.5 11.1 82.6-75 82.5zm160.9-29.2c0 15.7-2.4 30.9-22.2 30.9-9 0-15.2-3-20.9-9.8l-1.9 8.1h-29.8V192h31.7v41.7c6-6.5 12-9.2 20.9-9.2 21.4 0 22.2 12.8 22.2 30.1zM265 229.9c0-9.7 1.6-16-10.3-16v83.7c12.2.3 10.3-8.7 10.3-18.4zm85.5 26.1c0-5.4 1.1-12.7-6.2-12.7-6 0-4.9 8.9-4.9 12.7 0 .6-1.1 39.6 1.1 44.7.8 1.6 2.2 2.4 3.8 2.4 7.8 0 6.2-9 6.2-14.4z" />
+									</svg>
+								</a>
+								<div class="text-white space-y-4">
+									<h3 class="font-bold text-xl">Personal info</h3>
+									<div x-show="actorInfo.known_for_department" class="flex flex-col mb-2">
+										<span class="font-semibold text-sm">Known For</span>
+										<span class="font-normal text-gray-400" x-text="actorInfo.known_for_department">Acting</span>
+									</div>
+									<div x-show="actorInfo.popularity" class="flex flex-col mb-2">
+										<span class="font-semibold text-sm">Known Credits</span>
+										<span class="font-normal text-gray-400" x-text="actorInfo.popularity">62</span>
+									</div>
+									<div x-show="actorInfo.gender" class="flex flex-col mb-2">
+										<span class="font-semibold text-sm">Gender</span>
+										<span class="font-normal text-gray-400" x-text="actorInfo.gender">Male</span>
+									</div>
+									<div x-show="actorInfo.birthday" class="flex flex-col mb-2">
+										<span class="font-semibold text-sm">Birthday</span>
+										<span class="font-normal text-gray-400" x-text="actorInfo.birthday">04-04-1997</span>
+									</div>
+									<div x-show="actorInfo.deathday" class="flex flex-col mb-2">
+										<span class="font-semibold text-sm">Deathday</span>
+										<span class="font-normal text-gray-400" x-text="actorInfo.deathday">04-04-1997</span>
+									</div>
+									<div x-show="actorInfo.place_of_birth" class="flex flex-col mb-2">
+										<span class="font-semibold text-sm">Place of Birth</span>
+										<span class="font-normal text-gray-400" x-text="actorInfo.place_of_birth">04-04-1997</span>
+									</div>
+									<div x-show="actorInfo.also_known_as" class="flex flex-col mb-2">
+										<span class="font-semibold text-sm">Also Known As</span>
+										<template x-for="(item,index) in actorInfo.also_known_as" :key="index">
+											<span class="font-normal text-gray-400" x-text="item">04-04-1997</span>
 										</template>
 									</div>
 								</div>
 							</div>
+						</div>
+	
+						<div class="overflow-hidden relative">
+							<div x-data="{showToolTip : false}" class="relative flex items-center justify-between">
+								<h2 class="text-3xl font-bold text-white mb-1 mt-2 sm:mt-0 sm:mb-2" x-text="actorInfo.name"></h2>
+								<button x-on:click="showToolTip = !showToolTip;"
+												class="block sm:hidden min-w-7 min-h-7 w-7 h-7 bg-gray-800 rounded-full  p-1">
+										<svg class="w-full h-full fill-white" xmlns="http://www.w3.org/2000/svg"
+											viewBox="0 0 448 512">
+											<path
+												d="M8 256a56 56 0 1 1 112 0A56 56 0 1 1 8 256zm160 0a56 56 0 1 1 112 0 56 56 0 1 1 -112 0zm216-56a56 56 0 1 1 0 112 56 56 0 1 1 0-112z" />
+										</svg>
+								</button>
+								<div style="width:calc(100% - 25px)" x-show="showToolTip" x-on:click.away="showToolTip = false" class="block sm:hidden absolute top-[35px] right-[25px] w-[200px] h-auto p-4 bg-gray-700  transition duration-300 rounded-xl z-[9]">
+									<div class="mb-3 flex flex-col">
+										
+										<div class="text-white space-y-2">
+											<div class="flex items-center justify-between">
+												<h3 class="font-bold text-xl">Personal info</h3>
+												<a  class="self-end" x-show="actorInfo.imdb_id" target="_blank" :href="`https://www.imdb.com/name/${actorInfo.imdb_id}`"
+												class="hover:opacity-70 transition duration-200">
+												<svg class="w-6 h-6 fill-[#F5C518]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+													<path
+														d="M400 32H48C21.5 32 0 53.5 0 80v352c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48V80c0-26.5-21.5-48-48-48zM21.3 229.2H21c.1-.1.2-.3.3-.4zM97 319.8H64V192h33zm113.2 0h-28.7v-86.4l-11.6 86.4h-20.6l-12.2-84.5v84.5h-29V192h42.8c3.3 19.8 6 39.9 8.7 59.9l7.6-59.9h43zm11.4 0V192h24.6c17.6 0 44.7-1.6 49 20.9 1.7 7.6 1.4 16.3 1.4 24.4 0 88.5 11.1 82.6-75 82.5zm160.9-29.2c0 15.7-2.4 30.9-22.2 30.9-9 0-15.2-3-20.9-9.8l-1.9 8.1h-29.8V192h31.7v41.7c6-6.5 12-9.2 20.9-9.2 21.4 0 22.2 12.8 22.2 30.1zM265 229.9c0-9.7 1.6-16-10.3-16v83.7c12.2.3 10.3-8.7 10.3-18.4zm85.5 26.1c0-5.4 1.1-12.7-6.2-12.7-6 0-4.9 8.9-4.9 12.7 0 .6-1.1 39.6 1.1 44.7.8 1.6 2.2 2.4 3.8 2.4 7.8 0 6.2-9 6.2-14.4z" />
+												</svg>
+											</a>
+											</div>
+											<div x-show="actorInfo.known_for_department" class="flex flex-col mb-2">
+												<span class="font-semibold text-sm">Known For</span>
+												<span class="font-normal text-gray-400" x-text="actorInfo.known_for_department">Acting</span>
+											</div>
+											<div x-show="actorInfo.popularity" class="flex flex-col mb-2">
+												<span class="font-semibold text-sm">Known Credits</span>
+												<span class="font-normal text-gray-400" x-text="actorInfo.popularity">62</span>
+											</div>
+											<div x-show="actorInfo.gender" class="flex flex-col mb-2">
+												<span class="font-semibold text-sm">Gender</span>
+												<span class="font-normal text-gray-400" x-text="actorInfo.gender">Male</span>
+											</div>
+											<div x-show="actorInfo.birthday" class="flex flex-col mb-2">
+												<span class="font-semibold text-sm">Birthday</span>
+												<span class="font-normal text-gray-400" x-text="actorInfo.birthday">04-04-1997</span>
+											</div>
+											<div x-show="actorInfo.deathday" class="flex flex-col mb-2">
+												<span class="font-semibold text-sm">Deathday</span>
+												<span class="font-normal text-gray-400" x-text="actorInfo.deathday">04-04-1997</span>
+											</div>
+											<div x-show="actorInfo.place_of_birth" class="flex flex-col mb-2">
+												<span class="font-semibold text-sm">Place of Birth</span>
+												<span class="font-normal text-gray-400" x-text="actorInfo.place_of_birth">04-04-1997</span>
+											</div>
+											<div x-show="actorInfo.also_known_as" class="flex flex-col mb-2">
+												<span class="font-semibold text-sm">Also Known As</span>
+												<template x-for="(item,index) in actorInfo.also_known_as" :key="index">
+													<span class="font-normal text-gray-400" x-text="item">04-04-1997</span>
+												</template>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div x-show="actorInfo.biography" class="space-y-1 mb-5">
+								<span class="text-white font-semi-bold text-lg">Biography</span>
+								<p x-text="actorInfo.biography" class="text-base text-gray-400 whitespace-pre-wrap"></p>
+							</div>
+							<div x-show="assets.length >= 1" class="min-w-[500px] h-[350px] relative pb-[45px]">
+								<h3 class="font-bold text-white text-lg">Known For</h3>
+								<div class="w-full h-[330px] p-5 pl-0 overflow-x-scroll overflow-y-hidden flex gap-3 sm:gap-2 text-white scrollbar">
+									<template x-for="(asset,index) in assets" :key="index">
+										<div x-show="asset.poster_path != null" class="rounded-lg space-y-1 max-w-[135px] min-w-[135px]">
+											<a :href="`./movies.html?id=${asset.id}`" class="w-full h-[195px] block roundex-xl">
+												<img draggable="false" class="w-full h-full rounded-lg"
+													:src="`https://www.themoviedb.org/t/p/w300_and_h450_bestv2${asset.poster_path}`" alt="">
+											</a>
+											<div class="flex flex-col">
+												<span class="font-semibold text-sm sm:text-base" x-text="asset.title"></span>
+												<span class="text-sm text-gray-300" x-text="asset.character"></span>
+											</div>
+										</div>
+									</template>
+								</div>
+							</div>
+						</div>
+			</div>
+			</main>
+			<footer x-show="imageLoaded" class="flex items-center w-full h-[300px] sm:h-[380px] bg-[#032541]">
+				<div class="w-auto lg:w-[1300px] h-auto sm:h-full mx-auto flex items-center justify-center sm:py-10 sm:pl-20 sm:pt-[80px] gap-10">
+					<div class="w-[150px] h-full flex flex-col gap-10">
+						<img class="h-auto w-full"
+							src="https://www.themoviedb.org/assets/2/v4/logos/v2/blue_square_2-d537fb228cf3ded904ef09b136fe3fec72548ebc1fea3fbbd1ad9e36364db38b.svg"
+							alt="">
+							<button x-show="localStorage.getItem('userName')"
+							class="w-full h-[50px] p-4 text-blue-400 font-bold text-lg leading-none bg-white rounded-lg" x-text="localStorage.getItem('userName')">Hi,Stasikbeast</button>
+					</div>
+					<div class="hidden sm:flex w-auto gap-10">
+						<div class="text-white">
+							<span class="text-xl uppercase font-bold"> The basics</span>
+							<div class="flex flex-col font-light text-gray-300">
+								<span>About TMDB</span>
+								<span>Contact Us</span>
+								<span>Support Forums</span>
+								<span>API</span>
+								<span>System Status</span>
+							</div>
+						</div>
+						<div class="text-white">
+							<span class="text-xl uppercase font-bold">Get involved</span>
+							<div class="flex flex-col font-light text-gray-300">
+								<span>Contribution Bible</span>
+								<span>Add New Movie</span>
+								<span>Add New TV Show</span>
+							</div>
+						</div>
+						<div class="text-white">
+							<span class="text-xl uppercase font-bold"> The basics</span>
+							<div class="flex flex-col font-light text-gray-300">
+								<span>Guidelines</span>
+								<span>Discussions</span>
+								<span>Leaderboard</span>
+								<span>Twitter</span>
+							</div>
+						</div>
+						<div class="text-white">
+							<span class="text-xl uppercase font-bold"> The basics</span>
+							<div class="flex flex-col font-light text-gray-300">
+								<span>Terms of Use</span>
+								<span>API Terms of Use</span>
+								<span>Privacy Policy</span>
+							</div>
+						</div>
+					</div>
 				</div>
-		</main>
+			</footer>
+		</div>
 </body>
 </html>
 

@@ -34,14 +34,15 @@
 						</nav>
 					</div>
 					<div class="flex flex-col sm:flex-row sm:gap-1 justify-center items-center text-white">
-						<span>
-							<a class="w-[35px] h-[35px] flex flex-col items-center rounded-full overflow-hidden" href="./profile.html" >
-								<img x-show="localStorage.getItem('userAvatar')" class="h-full w-full rounded-full" x-bind:src="'data:image/jpeg;base64,' + localStorage.getItem('userAvatar')" alt="">
-								<img x-show="!localStorage.getItem('userAvatar')" class="h-full w-full rounded-full" src="https://icon-library.com/images/movie-icon-png/movie-icon-png-2.jpg" alt="">
-							</a>
-						</span>
-					<!--	<span class="text-sm">Profile</span> -->
-
+						<a href="./profile.html">
+							<div class="flex flex-col items-center gap-0.5">
+								<div class="w-[25px] h-[25px] flex flex-col items-center rounded-full overflow-hidden"  >
+									<img x-show="localStorage.getItem('userAvatar')" class="h-full w-full rounded-full" x-bind:src="'data:image/jpeg;base64,' + localStorage.getItem('userAvatar')" alt="">
+									<img x-show="!localStorage.getItem('userAvatar')" class="h-full w-full rounded-full" src="https://icon-library.com/images/movie-icon-png/movie-icon-png-2.jpg" alt="">
+								</div>
+								<span class="text-xs">Profile</span>
+							</div>
+						</a>
 					</div>
 				</div>
 			</div>
@@ -123,7 +124,7 @@
 										</svg>
 									</button>
 									<div x-show="toolTip"
-										class="w-[150px] h-[50px] bg-gray-800 absolute rounded-xl top-8 right-2 z-[999] cursor-pointer flex items-center justify-center">
+										class="w-[150px] h-[50px] bg-gray-800 absolute rounded-xl top-9 right-2 z-[999] cursor-pointer flex items-center justify-center">
 										<button
 											x-on:click="toggle(asset.id);addFavorite(asset.id,asset.title,asset.poster,asset.data,asset.rating);"
 											class="flex items-center p-1 pl-4 gap-2 h-full w-full hover:bg-gray-900 rounded-xl">
