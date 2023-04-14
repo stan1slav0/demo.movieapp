@@ -15,54 +15,48 @@
 		<div x-data="loadUserMovies" class="h-full overflow-y-scroll">
 			<header class="w-full h-[64px] bg-[#032541] flex justify-center items-center">
 				<div class="w-full h-[64px] bg-[#032541] flex justify-center items-center">
-					<div class="w-[1300px] px-8 flex items-center justify-between">
-						<div class="flex items-center">
-							<div>
-							<a href="./index.html">	
-								<img src="src/images/logo.png" alt="">
-							</a>
+					<div class="w-full h-[64px] bg-[#032541] flex justify-center items-center">
+						<div class="w-full sm:w-[1300px] px-8 flex items-center justify-between">
+							<div class="flex items-center">
+								<div class="h-[15px] sm:h-full">
+									<a class="h-full" href="index.html">
+										<img class="h-full" src="src/images/logo.png" alt="">
+									</a>
+								</div>
+								<nav class="px-5 hidden sm:flex">
+									<ul class="flex space-x-5 text-white">
+										<li>Movies</li>
+										<li>TV Shows</li>
+										<li>People</li>
+										<li>More</li>
+									</ul>
+								</nav>
 							</div>
-							<nav class="flex px-5">
-								<ul class="flex space-x-5 text-white">
-									<li class="relative">Movies
-									<!--	<div class="w-[100px] flex flex-col justify-center items-center absolute -left-[20px] top-[30px] bg-gray-800 p-1 px-1 rounded-xl">
-											<span class="border-b-none hover:border-b border-black cursor-pointer">Popular</span>
-											<span class="border-b-none hover:border-b border-black cursor-pointer">Popular</span>
-											<span class="border-b-none hover:border-b border-black cursor-pointer">Popular</span>
-										</div> -->
-									</li>
-									<li>TV Shows</li>
-									<li>People</li>
-									<li>More</li>
-								</ul>
-							</nav>
-						</div>
-						<div x-show="!register" class="flex items-center space-x-5 text-white">
-							<img src="src/images/plus.png" alt="">
-							<span>
-								<a class="w-[35px] h-[35px] flex flex-col items-center rounded-full overflow-hidden" href="./profile.html" >
-									<img x-show="image" class="h-full w-full rounded-full" x-bind:src="'data:image/jpeg;base64,' + image" alt="">
-									<img x-show="!image" class="h-full w-full rounded-full" src="https://icon-library.com/images/movie-icon-png/movie-icon-png-2.jpg" alt="">
-								</a>
-							</span>
+							<div class="flex flex-col sm:flex-row sm:gap-1 justify-center items-center text-white">
+								<span>
+									<a class="w-[35px] h-[35px] flex flex-col items-center rounded-full overflow-hidden" href="./profile.html" >
+										<img x-show="localStorage.getItem('userAvatar')" class="h-full w-full rounded-full" x-bind:src="'data:image/jpeg;base64,' + localStorage.getItem('userAvatar')" alt="">
+										<img x-show="!localStorage.getItem('userAvatar')" class="h-full w-full rounded-full" src="https://icon-library.com/images/movie-icon-png/movie-icon-png-2.jpg" alt="">
+									</a>
+								</span>
+							</div>
 						</div>
 					</div>
-				</div>
 			</header>
-			<main class="min-h-[880px] pb-10">
+			<main class="pb-10 min-h-[calc(100vh-365px)] sm:min-h-[calc(100vh-445px)]">
 				<div
 				style="background: linear-gradient(to left, rgba(3,37,65) 10%, transparent), url('https://www.themoviedb.org/assets/2/v4/account_pipes/light_blue-a230b623827400e967c6eb7241d88086f2eb9264c0789d0dab15ae6f1df1421a.svg');background-size: cover;"
 				class="w-full h-[250px]">
 				<template x-if="!register">
-					<div class="w-[1300px] h-full mx-auto flex items-center py-10 pl-20">
-						<div class="flex gap-1 flex-col">
+					<div class="w-full sm:w-[1300px] h-full mx-auto flex items-center p-4 gap-3 sm:gap-0 sm:py-10 sm:pl-20">
+						<div class="flex gap-1 flex-col w-[150px] sm:w-auto">
 							<template x-if="!register">
 								<div class="h-[150px] w-[150px] flex flex-col items-center rounded-full p-5 overflow-hidden">
 									<img x-show="image" class="h-full w-full rounded-full" x-bind:src="'data:image/jpeg;base64,' + image" alt="">
 									<img x-show="!image" class="h-full w-full rounded-full" src="https://icon-library.com/images/movie-icon-png/movie-icon-png-2.jpg" alt="">
 								</div>
 							</template>
-								<div class="w-[155px] overflow-hidden ml-[10px]">
+								<div class=" sm:w-[155px] overflow-hidden ml-[10px]">
 									<label>
 										<input type="file" accept="image/*" @change="handleFileUpload($event)" type="file" class="text-sm text-grey-500
 										file:mr-5 file:py-1 file:px-4
@@ -75,17 +69,19 @@
 								</label>
 								</div>
 						</div>
-						<div class="self-start mt-10">
+						<div class="w-[50%] sm:w-auto self-start mt-10">
 							<div class="flex gap-2 items-center">
-								<span class="text-xl font-bold text-white leading-0" x-text="name"></span>
-								<span x-show="date" class="text-sm font-normal text-gray-300" x-text="`Member since ${date}`"></span>
+								<div class="flex flex-col items-start sm:items-center sm:gap-1 sm:flex-row w-[50%] sm:w-auto">
+									<span class="text-xl font-bold text-white leading-0" x-text="name"></span>
+									<span x-show="date" class="text-sm font-normal text-gray-300" x-text="`Member since ${date}`"></span>
+								</div>
 								<button x-show="IsSignOut" x-on:click="signOut;IsSignOut = false"
 									class="text-sm font-normal text-white bg-blue-300 hover:bg-opacity-80 transition duration-200 flex items-center justify-center px-2 rounded-xl">Sign
 									out</button>
 				
 							</div>
 							<div class="mt-3 flex items-center gap-2">
-								<span class="text-lg font-semibold text-white">Total films in favorite</span>
+								<span class="text-base sm:text-lg font-semibold text-white">Total films in favorite</span>
 								<div class="bg-gray-300 rounded-full flex items-center justify-center px-2" x-text="list && list.length">10
 								</div>
 							</div>
@@ -93,14 +89,14 @@
 					</div>
 				</template>
 			</div>
-			<div x-show="!register" class="w-[1300px] mx-auto mt-10">
-				<div class="flex flex-wrap w-full p-12 pl-16 py-0 gap-5">
+			<div x-show="!register" class="w-full sm:w-[1300px] mx-auto mt-10 px-2 sm:p-0">
+				<div class="flex sm:flex-wrap w-full p-4 sm:p-12 sm:pl-16 sm:py-0 gap-5 overflow-x-scroll sm:overflow-x-hidden">
 					<template x-for="(asset, index) in assets" :key="asset.id">
 						<div style="box-shadow: 0px 0px 10px 0px rgba(3,37,65)" x-show="list.includes(asset.id)"
 							x-data="{toolTip : false}" x-on:click.away="toolTip = false"
-							class="min-w-[215px]  max-w-[215px] h-auto rounded-2xl overflow-hidden relative bg-gray-800 pb-2   z-[1]">
+							class="min-w-[170px] max-w-[170px] sm:min-w-[215px]  sm:max-w-[215px] h-auto rounded-2xl overflow-hidden relative bg-gray-800 pb-2 z-[1]">
 							<button x-on:click="toolTip = !toolTip;"
-								class="w-6 h-6 absolute top-2 right-2 bg-gray-900 rounded-full px-1  z-[9]">
+								class="w-7 h-7 sm:w-6 sm:h-6 absolute top-2 right-2 bg-gray-900 rounded-full px-1  z-[9]">
 								<svg class="w-full h-full fill-white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
 									<path
 										d="M8 256a56 56 0 1 1 112 0A56 56 0 1 1 8 256zm160 0a56 56 0 1 1 112 0 56 56 0 1 1 -112 0zm216-56a56 56 0 1 1 0 112 56 56 0 1 1 0-112z" />
@@ -139,7 +135,7 @@
 				</div>
 			</div>
 	<template x-if="register">
-		<div class="w-full flex justify-center items-center mt-10">
+		<div class="w-full flex justify-center items-center mt-5 sm:mt-10 px-2">
 			<div x-data="{userEmail: '',userPassword: '',userName: '', login: null, showSignIn: true}" class="w-[550px] flex justify-between flex-col items-center mt-[50px] gap-5 border border-x-blue-300 border-y-blue-300 p-6 rounded-xl">
 				<!-- Login form -->
 				<form x-show="showSignIn" class="flex flex-col gap-1 w-full" x-on:submit.prevent="register">
@@ -168,15 +164,16 @@
 		</div>
 	</template>
 			</main>
-			<footer x-data="{footerTip : false}" x-on:mouseover="footerTip = true" x-on:mouseout="footerTip = false" class="w-full h-[285px] bg-[#032541] relative">
-				<div class="w-[1300px] h-full mx-auto flex items-center justify-center py-10 pl-20 gap-10" :class="{
-					'blur-md' : footerTip === true, 'blur-none' : footerTip === false
-				}">
+			<footer class="flex items-center w-full h-[300px] sm:h-[380px] bg-[#032541]">
+				<div class="w-auto lg:w-[1300px] h-auto sm:h-full mx-auto flex items-center justify-center sm:py-10 sm:pl-20 sm:pt-[80px] gap-10">
 					<div class="w-[150px] h-full flex flex-col gap-10">
-						<img class="h-auto w-full" src="https://www.themoviedb.org/assets/2/v4/logos/v2/blue_square_2-d537fb228cf3ded904ef09b136fe3fec72548ebc1fea3fbbd1ad9e36364db38b.svg" alt="">
-						<button x-show="name" class="w-full p-4 text-blue-400 font-bold text-lg leading-none bg-white rounded-lg" x-text="`Hi ${name}`"></button>
+						<img class="h-auto w-full"
+							src="https://www.themoviedb.org/assets/2/v4/logos/v2/blue_square_2-d537fb228cf3ded904ef09b136fe3fec72548ebc1fea3fbbd1ad9e36364db38b.svg"
+							alt="">
+						<button
+							class="w-full h-[50px] p-4 text-blue-400 font-bold text-lg leading-none bg-white rounded-lg">Hi,Stasikbeast</button>
 					</div>
-					<div class="w-auto flex gap-10">
+					<div class="hidden sm:flex w-auto gap-10">
 						<div class="text-white">
 							<span class="text-xl uppercase font-bold"> The basics</span>
 							<div class="flex flex-col font-light text-gray-300">
@@ -214,7 +211,6 @@
 						</div>
 					</div>
 				</div>
-				<div x-show="footerTip" class="text-2xl text-white absolute top-0 w-full h-full flex justify-center items-center">It's just hardcoded footer</div>
 			</footer>
 		</div>
 	</div>

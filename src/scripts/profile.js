@@ -31,10 +31,8 @@ const Profile = () =>{
 			this.name = fetchedData.name
 			this.id = fetchedData.id
 			this.image = fetchedData.image
-
 			this.assets = fetchedData.movies.reverse()
 			this.IsSignOut = true
-
 			localStorage.setItem('userAvatar', fetchedData.image)
 
 		} else {
@@ -93,7 +91,6 @@ const Profile = () =>{
 				if(item.name === userName && item.password === user_pass){
 					this.register = false
 					localStorage.setItem('userId', item.id)
-					localStorage.setItem('userAvatar', item.image)
 					location.reload()
 				} else {
 					this.error = 'No user found, register first'
@@ -116,7 +113,6 @@ const Profile = () =>{
 				fetchUsers()
 				.then(data => {
 					const existingUser = data.find(item => item.email === user_email || item.name === userName);
-					// const defaultUserImage = ''
 					if (existingUser) {
 						console.log('User already exists.');
 						this.error = 'User already exists'
@@ -126,7 +122,6 @@ const Profile = () =>{
 							email: user_email,
 							movies: [],
 							password: user_password,
-							image: defaultUserImage(),
 						};
 						fetch('https://642ff50dc26d69edc887858a.mockapi.io/api/v1/users', {
 							method: 'POST',

@@ -220,7 +220,7 @@
 					<div class="bg-[#01B4E4] p-2 sm:py-6 sm:px-4 sm:rounded-t-xl">
 						<span class="text-sm sm:text-2xl text-gray-700">Search Results</span>
 					</div>
-					<div class="flex flex-row sm:flex-col w-full h-auto pt-1 px-0.5 sm:px-0 sm:pt-0 justify-between sm:justify-start space-x-1 sm:space-y-1 sm:space-x-0 overflow-hidden">
+					<div class="flex flex-row sm:flex-col w-full h-auto pt-1 px-0.5 sm:px-0 sm:pt-0 justify-center sm:justify-start gap-2 sm:gap-0 sm:space-y-1 sm:space-x-0 overflow-hidden">
 						<div x-on:click="searchAssets = movieType.total; all = true; movies = false; tv = false; person = false;"
 							class="flex gap-1 items-center h-[35px] sm:h-auto sm:mt-0 justify-between p-1 sm:p-3 cursor-pointer bg-gray-800 hover:bg-opacity-80 transition duration-150 rounded-xl sm:rounded-none"
 							x-bind:class="{'bg-opacity-100 border border-gray-700': all === true, 'bg-opacity-50' : all === false}">

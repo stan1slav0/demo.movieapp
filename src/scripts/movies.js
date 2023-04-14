@@ -32,6 +32,7 @@ const MoviesInfo = () => {
 			sound:null,
 		},
 		socials: {},
+		modalSocials: {},
 		keywords: [],
 		reviews: {
 			reviewData: [],
@@ -116,6 +117,7 @@ const MoviesInfo = () => {
 		this.crew.editor = getDepartment(fetchedActors,'crew','Editing').slice(0,2)
 		this.crew.sound = getDepartment(fetchedActors,'crew','Sound').slice(0,2)
 		this.socials = fetchedMovieSocials
+		this.modalSocials = fetchedMovieSocials
 		this.keywords = movieKeywords.keywords
 		this.videos = movieVideos.results.slice(0,5)
 		this.recommendations = movieRec.results.slice(0,10)
