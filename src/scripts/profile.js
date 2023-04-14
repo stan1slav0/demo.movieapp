@@ -33,7 +33,12 @@ const Profile = () =>{
 			this.image = fetchedData.image
 			this.assets = fetchedData.movies.reverse()
 			this.IsSignOut = true
-			localStorage.setItem('userAvatar', fetchedData.image)
+
+			if(fetchedData.image === undefined){
+				return 
+			} else {
+				localStorage.setItem('userAvatar', fetchedData.image)
+			}
 
 		} else {
 			this.register = true
