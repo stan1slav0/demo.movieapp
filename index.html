@@ -17,7 +17,7 @@
 	<div x-data="Movies()" class="relative">
 		<header class="h-full overflow-y-scroll">
 			<div class="w-full h-[64px] bg-[#032541] flex justify-center items-center">
-				<div class="w-full sm:w-[1300px] px-8 flex items-center justify-between">
+				<div class="w-full md:w-[1300px] px-8 flex items-center justify-between">
 					<div class="flex items-center">
 						<div class="h-[15px] sm:h-full">
 							<a class="h-full" href="index.html">
@@ -47,7 +47,7 @@
 				</div>
 			</div>
 		</header>
-		<main x-data="{query:'', assets: [], submitForm: ''}" class="w-auto lg:w-[1300px] mx-auto mb-[100px]">
+		<main x-data="{query:'', assets: [], submitForm: ''}" class="w-auto lg:max-w-[1300px] mx-auto mb-[100px]">
 			<div style="background: linear-gradient(to left, rgba(3,37,65) 10%, transparent), url('https://www.themoviedb.org/t/p/w1920_and_h600_multi_faces_filter(duotone,00192f,00baff)/kSNojkWwSZWsYv0Xj1gcq88okzY.jpg');background-size: cover;" class="w-full p-6 sm:px-[40px] sm:py-[80px]">
 				<div class="flex flex-col space-y-2">
 					<span class="text-5xl sm:text-5xl text-white font-semibold">Welcome.</span>
@@ -292,7 +292,7 @@
 			</div>
 		</main>
 	<footer class="flex items-center w-full h-[300px] sm:h-[380px] bg-[#032541]">
-			<div class="w-auto lg:w-[1300px] h-auto sm:h-full mx-auto flex items-center justify-center sm:py-10 sm:pl-20 sm:pt-[80px] gap-10">
+			<div class="w-auto md:w-[1300px] h-auto sm:h-full mx-auto flex items-center justify-center sm:py-10 sm:pl-20 sm:pt-[80px] gap-10">
 				<div class="w-[150px] h-full flex flex-col gap-10">
 					<img class="h-auto w-full"
 						src="https://www.themoviedb.org/assets/2/v4/logos/v2/blue_square_2-d537fb228cf3ded904ef09b136fe3fec72548ebc1fea3fbbd1ad9e36364db38b.svg"
@@ -300,7 +300,7 @@
 						<button x-show="localStorage.getItem('userName')"
 					class="w-full h-[50px] p-4 text-blue-400 font-bold text-lg leading-none bg-white rounded-lg" x-text="localStorage.getItem('userName')">Hi,Stasikbeast</button>
 				</div>
-				<div class="hidden sm:flex w-auto gap-10">
+				<div class="hidden md:flex w-auto gap-10">
 					<div class="text-white">
 						<span class="text-xl uppercase font-bold"> The basics</span>
 						<div class="flex flex-col font-light text-gray-300">
