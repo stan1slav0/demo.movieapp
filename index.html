@@ -5,14 +5,12 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<script defer src="dist/bundle.js"></script>
-	<link id="API-Docs-Favicon" href="https://www.themoviedb.org/favicon.ico" type="image/x-icon" rel="shortcut icon">
-	<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Source+Sans+Pro:wght@300;400;600;700&display=swap" rel="stylesheet">
+	<link href="https://www.themoviedb.org/favicon.ico" type="image/x-icon" rel="shortcut icon">
 	<link rel="stylesheet" href="dist/main.css">
 	<title>Movie App</title>
 </head>
 
-<body class="bg-gray-900 relative"
-	x-data="{modalImage:'',modalTitle:'',modalBg:'',modalRating:'',modalData:'',modalAdult:'',modalOverview:'',modalLanguage:'',modalId:'',modalSearchName: '',modalSearchOverview: '', showModal : false, isSearch : false, all : false, movies: false, tv: false, person: false}">
+<body class="bg-gray-900 relative" x-data="{all : false, movies: false, tv: false, person: false}">
 
 	<div x-data="Movies()" class="relative">
 		<header class="h-full overflow-y-scroll">
@@ -36,9 +34,11 @@
 					<div class="flex flex-col sm:flex-row sm:gap-1 justify-center items-center text-white">
 						<a href="./profile.html">
 							<div class="flex flex-col items-center gap-0.5">
-								<div class="w-[25px] h-[25px] flex flex-col items-center rounded-full overflow-hidden"  >
-									<img x-show="localStorage.getItem('userAvatar')" class="h-full w-full rounded-full" x-bind:src="'data:image/jpeg;base64,' + localStorage.getItem('userAvatar')" alt="">
-									<img x-show="!localStorage.getItem('userAvatar')" class="h-full w-full rounded-full" src="https://icon-library.com/images/movie-icon-png/movie-icon-png-2.jpg" alt="">
+								<div class="w-[25px] h-[25px] flex flex-col items-center rounded-full overflow-hidden">
+									<img x-show="localStorage.getItem('userAvatar')" class="h-full w-full rounded-full"
+										x-bind:src="'data:image/jpeg;base64,' + localStorage.getItem('userAvatar')" alt="">
+									<img x-show="!localStorage.getItem('userAvatar')" class="h-full w-full rounded-full"
+										src="https://icon-library.com/images/movie-icon-png/movie-icon-png-2.jpg" alt="">
 								</div>
 								<span class="text-xs">Profile</span>
 							</div>
@@ -48,19 +48,26 @@
 			</div>
 		</header>
 		<main x-data="{query:'', assets: [], submitForm: ''}" class="w-auto lg:max-w-[1300px] mx-auto mb-[100px]">
-			<div style="background: linear-gradient(to left, rgba(3,37,65) 10%, transparent), url('https://www.themoviedb.org/t/p/w1920_and_h600_multi_faces_filter(duotone,00192f,00baff)/kSNojkWwSZWsYv0Xj1gcq88okzY.jpg');background-size: cover;" class="w-full p-6 sm:px-[40px] sm:py-[80px]">
+			<div
+				style="background: linear-gradient(to left, rgba(3,37,65) 10%, transparent), url('https://www.themoviedb.org/t/p/w1920_and_h600_multi_faces_filter(duotone,00192f,00baff)/kSNojkWwSZWsYv0Xj1gcq88okzY.jpg');background-size: cover;"
+				class="w-full p-6 sm:px-[40px] sm:py-[80px]">
 				<div class="flex flex-col space-y-2">
 					<span class="text-5xl sm:text-5xl text-white font-semibold">Welcome.</span>
-					<span class="text-2xl sm:text-3xl text-white font-semibold">Millions of movies, TV shows and people to discover. Explore now.</span>
+					<span class="text-2xl sm:text-3xl text-white font-semibold">Millions of movies, TV shows and people to
+						discover. Explore now.</span>
 				</div>
 				<div class="w-full mt-10 sm:mt-20">
 					<div class="w-full h-10 sm:h-[46px] bg-white rounded-3xl flex justify-between">
 						<form x-on:submit.prevent="submitForm" action="" class="w-full flex items-center">
-							<input x-ref="inputValue" placeholder="Search for a movies" type="text" class="rounded-l-3xl w-full pl-5 outline-none relative" x-model="query" x-on:input="if(query.length < 1) {isSearch = false} else {loadMoviesByName(query); isSearch = true; all = true; movies = false; tv = false; person = false}">
+							<input x-ref="inputValue" placeholder="Search for a movies" type="text"
+								class="rounded-l-3xl w-full pl-5 outline-none relative" x-model="query"
+								x-on:input="if(query.length < 1) {isSearch = false} else {loadMoviesByName(query); isSearch = true; all = true; movies = false; tv = false; person = false}">
 							<div class="h-full flex items-center space-x-4">
-								<div x-show="query.length >= 1" x-on:click="isSearch = false;query = ''" class="w-[10px] h-[10px] cursor-pointer hover:opacity-70 transition duration-150">
+								<div x-show="query.length >= 1" x-on:click="isSearch = false;query = ''"
+									class="w-[10px] h-[10px] cursor-pointer hover:opacity-70 transition duration-150">
 									<svg class="fill-blue-500 -mt-0.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
-										<path d="M310.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L160 210.7 54.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L114.7 256 9.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L160 301.3 265.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L205.3 256 310.6 150.6z"/>
+										<path
+											d="M310.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L160 210.7 54.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L114.7 256 9.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L160 301.3 265.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L205.3 256 310.6 150.6z" />
 									</svg>
 								</div>
 								<button @click.prevent="submitForm"
@@ -138,11 +145,12 @@
 										</button>
 									</div>
 								</div>
-								<div class="h-[250px] sm:h-auto rounded-b-2xl relative cursor-pointer z-[1] transition-all duration-200 "
+								<div
+									class="h-[250px] sm:h-auto rounded-b-2xl relative cursor-pointer z-[1] transition-all duration-200 "
 									:class="{'blur-sm' : toolTip === true , 'blur-none' : toolTip === false }">
 									<a :href="`./movies.html?id=${asset.id}`">
-										<img class="h-full rounded-2xl" :src="`https://www.themoviedb.org/t/p/w440_and_h660_face/${asset.poster}`"
-											alt="">
+										<img class="h-full rounded-2xl"
+											:src="`https://www.themoviedb.org/t/p/w440_and_h660_face/${asset.poster}`" alt="">
 									</a>
 									<div
 										class="w-10 h-10 rounded-full -bottom-4 left-2 absolute flex items-center justify-center bg-[#032541] border border-green-500 text-white">
@@ -185,10 +193,12 @@
 										<button x-on:click="popular = true; top = false; upcoming = false; loadMoviesSecondBlock('popular')"
 											class="text-sm sm:text-base h-full px-4 leading-none flex items-center rounded-2xl cursor-pointer z-[2] transition duration-300"
 											:class="{' text-[#032441]': popular === true, 'text-white' : popular === false}">Popular</button>
-										<button x-on:click="popular = false; top = true; upcoming = false; loadMoviesSecondBlock('top_rated')"
+										<button
+											x-on:click="popular = false; top = true; upcoming = false; loadMoviesSecondBlock('top_rated')"
 											class="text-sm sm:text-base h-full px-4 leading-none flex items-center rounded-2xl cursor-pointer z-[2] transition duration-300"
 											:class="{' text-[#032441]': top === true, 'text-white' : top === false}">Top rated</button>
-										<button x-on:click="popular = false; top = false; upcoming = true; loadMoviesSecondBlock('upcoming')"
+										<button
+											x-on:click="popular = false; top = false; upcoming = true; loadMoviesSecondBlock('upcoming')"
 											class="text-sm sm:text-base h-full px-4 leading-none flex items-center rounded-2xl cursor-pointer z-[2] transition duration-300"
 											:class="{' text-[#032441]': upcoming === true, 'text-white' : upcoming === false}">Upcoming</button>
 									</div>
@@ -196,13 +206,12 @@
 							</div>
 							<div class="flex w-full overflow-scroll space-x-2 text-white scrollbar">
 								<template x-for="(asset, index) in assetsSecond" :key="index">
-									<div x-on:mouseover="hoveredId = asset.poster" class="min-w-[300px] h-[230px] rounded-2xl overflow-hidden ">
-										<div
-											
-											class="h-auto rounded-xl sm:rounded-b-2xl relative cursor-pointer">
+									<div x-on:mouseover="hoveredId = asset.poster"
+										class="min-w-[300px] h-[230px] rounded-2xl overflow-hidden ">
+										<div class="h-auto rounded-xl sm:rounded-b-2xl relative cursor-pointer">
 											<a class="rounded-xl" :href="`./movies.html?id=${asset.id}`">
 												<img :src="`https://www.themoviedb.org/t/p/w710_and_h400_multi_faces/${asset.poster}`" alt=""
-												class="w-full h-full rounded-xl object-contain">
+													class="w-full h-full rounded-xl object-contain">
 											</a>
 										</div>
 										<div class="pl-4 pt-3 flex flex-col relative z-10">
@@ -221,7 +230,8 @@
 					<div class="bg-[#01B4E4] p-2 sm:py-6 sm:px-4 sm:rounded-t-xl">
 						<span class="text-sm sm:text-2xl text-gray-700">Search Results</span>
 					</div>
-					<div class="flex flex-row sm:flex-col w-full h-auto pt-1 px-0.5 sm:px-0 sm:pt-0 justify-center sm:justify-start gap-2 sm:gap-0 sm:space-y-1 sm:space-x-0 overflow-hidden">
+					<div
+						class="flex flex-row sm:flex-col w-full h-auto pt-1 px-0.5 sm:px-0 sm:pt-0 justify-center sm:justify-start gap-2 sm:gap-0 sm:space-y-1 sm:space-x-0 overflow-hidden">
 						<div x-on:click="searchAssets = movieType.total; all = true; movies = false; tv = false; person = false;"
 							class="flex gap-1 items-center h-[35px] sm:h-auto sm:mt-0 justify-between p-1 sm:p-3 cursor-pointer bg-gray-800 hover:bg-opacity-80 transition duration-150 rounded-xl sm:rounded-none"
 							x-bind:class="{'bg-opacity-100 border border-gray-700': all === true, 'bg-opacity-50' : all === false}">
@@ -269,14 +279,14 @@
 
 							<div class="min-w-[105px] w-[105px] sm:min-w-[105px] sm:w-[135px] h-full cursor-pointer">
 								<a class="h-full w-full" :href="`./movies.html?id=${asset.id}`">
-									<img class="h-full w-full" :src="`https://www.themoviedb.org/t/p/w188_and_h282_bestv2/${asset.poster}`"
-										alt="">
+									<img class="h-full w-full"
+										:src="`https://www.themoviedb.org/t/p/w188_and_h282_bestv2/${asset.poster}`" alt="">
 								</a>
 							</div>
 							<div class="flex w-full p-4 pt-2 sm:pt-8 flex-col justify-around space-y-4">
-								<div
-									class="cursor-pointer">
-									<h3 class="text-lg sm:text-xl font-semibold leading-6 sm:leading-none text-gray-200" x-text="asset.title || asset.name"></h3>
+								<div class="cursor-pointer">
+									<h3 class="text-lg sm:text-xl font-semibold leading-6 sm:leading-none text-gray-200"
+										x-text="asset.title || asset.name"></h3>
 									<span class="text-sm sm:text-base text-gray-500 leading-none" x-text="asset.data"></span>
 								</div>
 								<div class="overflow-hidden text-gray-300 opacity-80 break-all">
@@ -291,14 +301,16 @@
 				</div>
 			</div>
 		</main>
-	<footer class="flex items-center w-full h-[300px] sm:h-[380px] bg-[#032541]">
-			<div class="w-auto md:w-[1300px] h-auto sm:h-full mx-auto flex items-center justify-center sm:py-10 sm:pl-20 sm:pt-[80px] gap-10">
+		<footer class="flex items-center w-full h-[300px] sm:h-[380px] bg-[#032541]">
+			<div
+				class="w-auto md:w-[1300px] h-auto sm:h-full mx-auto flex items-center justify-center sm:py-10 sm:pl-20 sm:pt-[80px] gap-10">
 				<div class="w-[150px] h-full flex flex-col gap-10">
 					<img class="h-auto w-full"
 						src="https://www.themoviedb.org/assets/2/v4/logos/v2/blue_square_2-d537fb228cf3ded904ef09b136fe3fec72548ebc1fea3fbbd1ad9e36364db38b.svg"
 						alt="">
-						<button x-show="localStorage.getItem('userName')"
-					class="w-full h-[50px] p-4 text-blue-400 font-bold text-lg leading-none bg-white rounded-lg" x-text="localStorage.getItem('userName')">Hi,Stasikbeast</button>
+					<button x-show="localStorage.getItem('userName')"
+						class="w-full h-[50px] p-4 text-blue-400 font-bold text-lg leading-none bg-white rounded-lg"
+						x-text="localStorage.getItem('userName')">Hi,Stasikbeast</button>
 				</div>
 				<div class="hidden md:flex w-auto gap-10">
 					<div class="text-white">

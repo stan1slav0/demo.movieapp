@@ -5,7 +5,6 @@
 
 *{
 	font-family: 'Roboto', sans-serif;
-	/* font-family: 'Source Sans Pro', sans-serif; */
 }
 
 @supports (-webkit-line-clamp: 2) {
@@ -16,8 +15,6 @@
     overflow: hidden;
   }
 }
-
-
 
 /* ---------------------------------------
 
